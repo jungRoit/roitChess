@@ -1,18 +1,15 @@
 function ChessBoard() {
     let that = this;
-    let boardContainer = document.getElementById('chessboard');
-
-    Files = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    Ranks = [1, 2, 3, 4, 5, 6, 7, 8];
-    Color = ['cornsilk', 'saddlebrown'];
 
       tiles = new Tiles();
     let index = 0;
 
-
     this.clickedBoxes = [];
     this.clickedIndex = 0;
     this.possibleMoves = [];
+
+    this.moveFrom;
+    this.moveTo;
 
     this.generateContainer = function () {
         boardContainer.style.position = 'relative';
@@ -79,7 +76,7 @@ function ChessBoard() {
 
         box.addEventListener('click', function () {
             let tile = tiles.getTileById(box.id);
-
+            that.moveFrom = tile;
             if(tile.hasPiece){
                 tiles.disableAll();
                 tiles.getAll().forEach(tile => {
@@ -92,8 +89,7 @@ function ChessBoard() {
 
                 tile.toggleEnabled();
                 if(tile.enabled){
-                    piece.CheckValidMoves();
-                   
+                    piece.CheckValidMoves(); 
                 }
                
             } else{

@@ -35,7 +35,6 @@ function WhitePawn(name,file,rank) {
 
     this.CheckValidMoves = function() {
         that.enabled = true;
-        console.log(that.validMovesList);
         if(that.validMovesList != null){
             that.validMovesList.forEach((tile) => {
                 tile.toggleEnabled();
@@ -64,6 +63,7 @@ function WhitePawn(name,file,rank) {
             that.currentPos = tile;
             that.setValidMoves();
 
+            
             that.moved = true;
             that.enabled = false;
         // }
@@ -79,7 +79,8 @@ function WhitePawn(name,file,rank) {
        that. validMovesList = [];
        if(that.currentPos.file != 'H'){
         var next = tiles.getTileById(that.currentPos.id -8);
-       that.validMovesList.push(next);
+        
+        if(!next.hasPiece)that.validMovesList.push(next);
        }
     
     }
