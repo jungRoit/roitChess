@@ -1,0 +1,15 @@
+/* .chessboard {
+    position: relative;
+    top: 50px;
+    left: 50px;
+    width: 480px;
+    height: 480px;
+    background: bisque;
+
+} */
+
+
+div.clicked {
+    background-color : lightblue;
+}
+
