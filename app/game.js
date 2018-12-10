@@ -19,7 +19,7 @@ PieceList = new PieceList();
 // wp.draw();
 // wp2.draw();
 
-wk = new WhiteKing('wk','E',1);
+wk = new BlackRook('wk','D',4);
 wk.draw();
 
 bk = new BlackKing('bk','E',8);
@@ -27,6 +27,6 @@ bk.draw();
 
 PieceList.add(wk);
 PieceList.add(bk);
-console.log(PieceList.getAll());
+// console.log(PieceList.getAll());
 
 
