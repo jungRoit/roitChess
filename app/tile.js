@@ -5,6 +5,7 @@ function Tile(id, file, rank, box) {
     this.rank = rank;
     this.box = box;
     this.enabled = false;
+    this.enableMove = false;
     this.pieceName = '';
     this.hasPiece = false;
 
@@ -27,7 +28,7 @@ function Tile(id, file, rank, box) {
         this.enabled = true;
     }
 
-    this.resetEnabled = function() {
+    this.setDisable = function() {
         this.enabled = false;
     }
 
@@ -49,11 +50,15 @@ function Tile(id, file, rank, box) {
     }
     
     this.checkEnabled = function() {
-        if(that.enabled) {
+        if(that.enableMove) {
            that.getElement().style.background = 'lightblue';
         }else {
             that.getElement().style.background = that.color;
         }
+    }
+
+    this.disableMove = function() {
+        that.enableMove = false;
     }
 
    

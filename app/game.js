@@ -19,7 +19,7 @@ PieceList = new PieceList();
 // wp.draw();
 // wp2.draw();
 
-wk = new BlackRook('wk','D',4);
+wk = new WhiteBishop('wk','H',4);
 wk.draw();
 
 bk = new BlackKing('bk','E',8);

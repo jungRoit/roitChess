@@ -75,6 +75,8 @@ function ChessBoard() {
         box.id = index;
 
         box.addEventListener('click', function () {
+           
+
             let tile = tiles.getTileById(box.id);
             that.moveFrom = tile;
             if(tile.hasPiece){
@@ -85,10 +87,11 @@ function ChessBoard() {
                 
                 let name = tile.pieceName;
                 let piece = PieceList.getByName(name);
-               piece.enabled = true;
+            //    piece.enabled = true;
 
                 tile.toggleEnabled();
                 if(tile.enabled){
+                    
                     piece.CheckValidMoves(); 
                 }
                

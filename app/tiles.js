@@ -61,5 +61,10 @@ function Tiles() {
             }
         })
     }
+    this.removeClickEvent = function() {
+        that.tilesList.forEach(tile => {
+            tile.getElement().style.pointerEvents  = 'none';
+        });
+    }
 
 }
