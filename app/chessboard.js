@@ -4,12 +4,12 @@ function ChessBoard() {
       tiles = new Tiles();
     let index = 0;
 
-    this.clickedBoxes = [];
-    this.clickedIndex = 0;
-    this.possibleMoves = [];
+    // this.clickedBoxes = [];
+    // this.clickedIndex = 0;
+    // this.possibleMoves = [];
 
-    this.moveFrom;
-    this.moveTo;
+    // this.moveFrom;
+    // this.moveTo;
 
     this.generateContainer = function () {
         boardContainer.style.position = 'relative';
@@ -78,25 +78,27 @@ function ChessBoard() {
            
 
             let tile = tiles.getTileById(box.id);
-            that.moveFrom = tile;
+           
             if(tile.hasPiece){
                 tiles.disableAll();
+                tiles.disableAllMoves();
                 tiles.getAll().forEach(tile => {
                     tile.checkEnabled();
                 });
                 
                 let name = tile.pieceName;
                 let piece = PieceList.getByName(name);
-            //    piece.enabled = true;
+                
+               piece.enabled = true;
 
-                tile.toggleEnabled();
-                if(tile.enabled){
-                    
+                tile.setEnabled();
+                if(tile.enabled == true){
                     piece.CheckValidMoves(); 
                 }
                
             } else{
                 tiles.disableAll();
+                // tiles.disableAllMoves();
                 tiles.getAll().forEach(tile => {
                     tile.checkEnabled();
                 });
@@ -108,6 +110,17 @@ function ChessBoard() {
 
     this.setStartingPosition = function () {
 
+        let wp1 = new WhitePawn('wp1','B',1);
+        let wp2 = new WhitePawn('wp2','B',2);
+        let wp3 = new WhitePawn('wp3','B',3);
+        let wp4 = new WhitePawn('wp4','B',4);
+        let wp5 = new WhitePawn('wp5','B',5);
+        let wp6 = new WhitePawn('wp6','B',6);
+        let wp7 = new WhitePawn('wp7','B',7);
+        let wp8 = new WhitePawn('wp8','B',8);
+        let wR1 = new WhiteRook('wr1','A',1);
+        let wR2 = new WhiteRook('wr2','A',8);
+        
     }
 
  

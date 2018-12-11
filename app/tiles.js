@@ -67,4 +67,10 @@ function Tiles() {
         });
     }
 
+    this.disableAllMoves = function(){
+        that.tilesList.forEach(tile => {
+            tile.enableMove = false;
+        });
+    }
+
 }
