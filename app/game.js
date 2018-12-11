@@ -22,21 +22,21 @@ PieceList = new PieceList();
 wk = new WhiteBishop('wk','H',4);
 wk.draw();
 
-let wp8 = new WhitePawn('wp8','H',2);
-// let wR1 = new WhiteRook('wr1','A',1);
-// let wR2 = new WhiteRook('wr2','H',1);
-// wp8.draw();
-// wR1.draw();
-// wR2.draw();
+let wp8 = new BlackRook('br8','H',1);
+let wR1 = new WhiteRook('wr1','A',1);
+let wR2 = new WhiteRook('wr2','E',4);
+wp8.draw();
+wR1.draw();
+wR2.draw();
 
 bk = new BlackKing('bk','E',8);
 bk.draw();
 
 PieceList.add(wk);
 PieceList.add(bk);
-// PieceList.add(wp8);
-// PieceList.add(wR1);
-// PieceList.add(wR2);
+PieceList.add(wp8);
+PieceList.add(wR1);
+PieceList.add(wR2);
 // console.log(PieceList.getAll());
 
 

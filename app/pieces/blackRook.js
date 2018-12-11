@@ -37,21 +37,33 @@ function BlackRook(name, file, rank) {
         //top valid moves
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
@@ -67,7 +79,7 @@ function BlackRook(name, file, rank) {
             tile.enableMove = true;
             tile.checkEnabled();
             tile.getElement().addEventListener('click', function () {
-                if (tile.enableMove == true) {
+                if (tile.enableMove == true && that.enabled == true) {
                     that.move(tile);
                 }
             });
@@ -77,9 +89,9 @@ function BlackRook(name, file, rank) {
     this.move = function (tile) {
         let initTile = tiles.getTile(this.file, this.rank);
         initTile.hasPiece = false;
-        if (tile.enableMove == true) {
+        
             tile.getElement().appendChild(that.getElement());
-        }
+        
         that.validMovesList.forEach(t => {
             t.disableMove();
             t.setEnabled();

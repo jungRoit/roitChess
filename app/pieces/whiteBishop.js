@@ -40,11 +40,13 @@ function WhiteBishop(name, file, rank) {
 
             if (validTile == null) {
                 break;
-            } else {
+            } 
+            
+                
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
-            }
+            
         }
 
         //top left 
@@ -89,35 +91,32 @@ function WhiteBishop(name, file, rank) {
 
     }
     this.CheckValidMoves = function () {
-     
+
         // if(that.enabled){
-            that.setValidMoves();
-            that.validMovesList.forEach((tile) => {
-                tile.enabled = false;
-                tile.enableMove = true;
-                tile.checkEnabled();
-                tile.getElement().addEventListener('click', function () {
-                    if (tile.enableMove == true) {
-                        that.move(tile);
-                    }
-                    
-                });
+        that.setValidMoves();
+        that.validMovesList.forEach((tile) => {
+            tile.enabled = false;
+            tile.enableMove = true;
+            tile.checkEnabled();
+            tile.getElement().addEventListener('click', function () {
+                if (tile.enableMove == true && that.enabled == true) {
+                    that.move(tile);
+                }
+
             });
-        
-       
+        });
+
+
     }
 
     this.move = function (tile) {
 
         let initTile = tiles.getTile(this.file, this.rank);
         initTile.hasPiece = false;
-        if (tile.enableMove == true ) {
-            if(that.enabled == true) {
-                console.log(that);
-                tile.getElement().appendChild(that.getElement());
-            }
-            
-        }
+        
+
+            tile.getElement().appendChild(that.getElement());
+        
         that.validMovesList.forEach(t => {
             t.disableMove();
             t.setEnabled();

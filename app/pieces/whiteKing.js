@@ -83,7 +83,7 @@ function WhiteKing(name, file, rank) {
             tile.enableMove = true;
             tile.checkEnabled();
             tile.getElement().addEventListener('click', function () {
-                if (tile.enableMove == true) {
+                if (tile.enableMove == true && that.enabled == true) {
                     that.move(tile);
                 }
             });
@@ -93,9 +93,9 @@ function WhiteKing(name, file, rank) {
     this.move = function (tile) {
         let initTile = tiles.getTile(this.file, this.rank);
         initTile.hasPiece = false;
-        if (tile.enableMove == true) {
+       
             tile.getElement().appendChild(that.getElement());
-        }
+        
         that.validMovesList.forEach(t => {
             t.disableMove();
             t.setEnabled();

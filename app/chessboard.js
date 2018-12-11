@@ -1,7 +1,7 @@
 function ChessBoard() {
     let that = this;
 
-      tiles = new Tiles();
+    tiles = new Tiles();
     let index = 0;
 
     // this.clickedBoxes = [];
@@ -42,9 +42,10 @@ function ChessBoard() {
                 that.switchTilesColor(box, i, j);
                 boardContainer.appendChild(box);
                 left += 60;
-                let tile = new Tile(index,Files[j],Ranks[i], box);
+                let tile = new Tile(index, Files[j], Ranks[i], box);
                 tiles.insert(tile);
                 index++;
+                that.tileEvents();
 
             }
 
@@ -73,36 +74,50 @@ function ChessBoard() {
         }
 
         box.id = index;
+    }
 
-        box.addEventListener('click', function () {
-           
+    this.tileEvents = function () {
+        tiles.getAll().forEach(tile => {
 
-            let tile = tiles.getTileById(box.id);
-           
-            if(tile.hasPiece){
-                tiles.disableAll();
-                tiles.disableAllMoves();
-                tiles.getAll().forEach(tile => {
-                    tile.checkEnabled();
+            if (tile.enabled) {
+
+                tile.getElement().addEventListener('click', function () {
+
+                    //  let tile = tiles.getTileById(box.id);
+                    if (tile.hasPiece) {
+                        // tiles.disableAll();
+                        tiles.disableAllMoves();
+                        tiles.getAll().forEach(tile => {
+                            tile.checkEnabled();
+                        });
+
+                        
+
+                        let name = tile.pieceName;
+                        let piece = PieceList.getByName(name);
+
+                        PieceList.disableAll();
+                        piece.enabled = true;
+                       
+
+                        // tile.setEnabled();
+                        if (tile.enabled == true) {
+                            
+                            piece.CheckValidMoves();
+                        }
+
+                    } else {
+                        // tiles.enableAll();
+                        // tiles.disableAllMoves();
+                        // tiles.getAll().forEach(tile => {
+                        //     tile.checkEnabled();
+                        // });
+                    }
                 });
-                
-                let name = tile.pieceName;
-                let piece = PieceList.getByName(name);
-                
-               piece.enabled = true;
 
-                tile.setEnabled();
-                if(tile.enabled == true){
-                    piece.CheckValidMoves(); 
-                }
-               
-            } else{
-                tiles.disableAll();
-                // tiles.disableAllMoves();
-                tiles.getAll().forEach(tile => {
-                    tile.checkEnabled();
-                });
-            }   
+            }
+
+
         });
 
 
@@ -110,20 +125,20 @@ function ChessBoard() {
 
     this.setStartingPosition = function () {
 
-        let wp1 = new WhitePawn('wp1','B',1);
-        let wp2 = new WhitePawn('wp2','B',2);
-        let wp3 = new WhitePawn('wp3','B',3);
-        let wp4 = new WhitePawn('wp4','B',4);
-        let wp5 = new WhitePawn('wp5','B',5);
-        let wp6 = new WhitePawn('wp6','B',6);
-        let wp7 = new WhitePawn('wp7','B',7);
-        let wp8 = new WhitePawn('wp8','B',8);
-        let wR1 = new WhiteRook('wr1','A',1);
-        let wR2 = new WhiteRook('wr2','A',8);
-        
+        let wp1 = new WhitePawn('wp1', 'B', 1);
+        let wp2 = new WhitePawn('wp2', 'B', 2);
+        let wp3 = new WhitePawn('wp3', 'B', 3);
+        let wp4 = new WhitePawn('wp4', 'B', 4);
+        let wp5 = new WhitePawn('wp5', 'B', 5);
+        let wp6 = new WhitePawn('wp6', 'B', 6);
+        let wp7 = new WhitePawn('wp7', 'B', 7);
+        let wp8 = new WhitePawn('wp8', 'B', 8);
+        let wR1 = new WhiteRook('wr1', 'A', 1);
+        let wR2 = new WhiteRook('wr2', 'A', 8);
+
     }
 
- 
+
 
 } // wp.enabled = true;
 // if(wp.enabled){

@@ -1,4 +1,5 @@
 function PieceList() {
+    var that=this;
     this.pieces = [];
 
     this.add = function(piece) {
@@ -15,5 +16,11 @@ function PieceList() {
 
     this.getAll = function() {
         return this.pieces;
+    }
+
+    this.disableAll = function() {
+        that.pieces.forEach(piece => {
+            piece.enabled = false;
+        })
     }
 }

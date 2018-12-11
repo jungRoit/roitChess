@@ -4,7 +4,7 @@ function Tile(id, file, rank, box) {
     this.file = file;
     this.rank = rank;
     this.box = box;
-    this.enabled = false;
+    this.enabled = true;
     this.enableMove = false;
     this.pieceName = '';
     this.hasPiece = false;
