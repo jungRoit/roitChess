@@ -1,8 +1,8 @@
-function BlackRook(name, file, rank) {
+function BlackQueen(name, file, rank) {
     var that = this;
     this.name = name
-    this.img = 'img/bR.png';
-    this.value = -5;
+    this.img = 'img/bQ.png';
+    this.value = -9;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
@@ -37,35 +37,72 @@ function BlackRook(name, file, rank) {
         //top valid moves
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
-            if(validTile.hasPiece) {
-                break;
-            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
-            if(validTile.hasPiece) {
-                break;
-            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
-            if(validTile.hasPiece) {
-                break;
-            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
-            if(validTile.hasPiece) {
-                break;
-            }
             that.validMovesList.push(validTile);
         }
+
+              //top right
+              for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posLeft * i));
+    
+                if (validTile == null) {
+                    break;
+                }
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
+    
+            }
+    
+            //top left 
+            for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
+    
+            // bottom right
+            for (let i = 1; i <= that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
+    
+            //bottom left
+            for (let i = 1; i <= that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
 
 
 

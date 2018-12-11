@@ -22,9 +22,9 @@ PieceList = new PieceList();
 wk = new WhiteBishop('wk','H',4);
 wk.draw();
 
-let wp8 = new BlackRook('br8','H',1);
-let wR1 = new WhiteRook('wr1','A',1);
-let wR2 = new WhiteRook('wr2','E',4);
+let wp8 = new BlackQueen('br8','H',1);
+let wR1 = new WhiteQueen('wr1','A',2);
+let wR2 = new BlackBishop('wr2','E',4);
 wp8.draw();
 wR1.draw();
 wR2.draw();

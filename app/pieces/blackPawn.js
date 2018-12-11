@@ -2,7 +2,7 @@ function BlackPawn(name, file, rank) {
     var that = this;
     this.name = name
     this.img = 'img/bp.png';
-    this.value - -1;
+    this.value = -1;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;

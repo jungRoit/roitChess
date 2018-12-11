@@ -2,7 +2,7 @@ function WhiteBishop(name, file, rank) {
     var that = this;
     this.name = name
     this.img = 'img/wB.png';
-    this.value - 5;
+    this.value = 3;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
@@ -40,13 +40,11 @@ function WhiteBishop(name, file, rank) {
 
             if (validTile == null) {
                 break;
-            } 
-            
-                
-                if (that.currentPos.color == validTile.color) {
-                    that.validMovesList.push(validTile);
-                }
-            
+            }
+            if (that.currentPos.color == validTile.color) {
+                that.validMovesList.push(validTile);
+            }
+
         }
 
         //top left 
@@ -113,10 +111,10 @@ function WhiteBishop(name, file, rank) {
 
         let initTile = tiles.getTile(this.file, this.rank);
         initTile.hasPiece = false;
-        
 
-            tile.getElement().appendChild(that.getElement());
-        
+
+        tile.getElement().appendChild(that.getElement());
+
         that.validMovesList.forEach(t => {
             t.disableMove();
             t.setEnabled();

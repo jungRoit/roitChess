@@ -2,7 +2,7 @@ function WhitePawn(name, file, rank) {
     var that = this;
     this.name = name
     this.img = 'img/wP.png';
-    this.value - 1;
+    this.value = 1;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;

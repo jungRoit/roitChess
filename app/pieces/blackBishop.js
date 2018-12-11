@@ -1,8 +1,8 @@
-function BlackRook(name, file, rank) {
+function BlackBishop(name, file, rank) {
     var that = this;
     this.name = name
-    this.img = 'img/bR.png';
-    this.value = -5;
+    this.img = 'img/bB.png';
+    this.value = -3;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
@@ -32,47 +32,67 @@ function BlackRook(name, file, rank) {
     }
 
     this.setValidMoves = function () {
-
         that.validMovesList = [];
-        //top valid moves
+
+        //top right
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
-            if(validTile.hasPiece) {
+            let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posLeft * i));
+
+            if (validTile == null) {
                 break;
-            }
-            that.validMovesList.push(validTile);
+            } 
+            
+                
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
+            
         }
 
-        for (let i = 1; i < that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
-            if(validTile.hasPiece) {
+        //top left 
+        for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
+            let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
+            if (validTile == null) {
                 break;
+            } else {
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
             }
-            that.validMovesList.push(validTile);
         }
 
-        for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
-            if(validTile.hasPiece) {
+        // bottom right
+        for (let i = 1; i <= that.currentPos.rank; i++) {
+            let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
+            if (validTile == null) {
                 break;
+            } else {
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
             }
-            that.validMovesList.push(validTile);
         }
 
-        for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
-            if(validTile.hasPiece) {
+        //bottom left
+        for (let i = 1; i <= that.currentPos.rank; i++) {
+            let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
+            if (validTile == null) {
                 break;
+            } else {
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
             }
-            that.validMovesList.push(validTile);
         }
+
+
 
 
 
     }
-
     this.CheckValidMoves = function () {
 
+        // if(that.enabled){
         that.setValidMoves();
         that.validMovesList.forEach((tile) => {
             tile.enabled = false;
@@ -82,14 +102,19 @@ function BlackRook(name, file, rank) {
                 if (tile.enableMove == true && that.enabled == true) {
                     that.move(tile);
                 }
+
             });
         });
+
+
     }
 
     this.move = function (tile) {
+
         let initTile = tiles.getTile(this.file, this.rank);
         initTile.hasPiece = false;
         
+
             tile.getElement().appendChild(that.getElement());
         
         that.validMovesList.forEach(t => {
@@ -104,6 +129,7 @@ function BlackRook(name, file, rank) {
         that.rank = tile.getRank();
         that.currentPos = tile;
         that.moved = true;
+        that.enabled = false;
 
     }
 

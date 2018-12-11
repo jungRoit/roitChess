@@ -1,8 +1,8 @@
-function WhiteRook(name, file, rank) {
+function WhiteQueen(name, file, rank) {
     var that = this;
     this.name = name
-    this.img = 'img/wR.png';
-    this.value = 5;
+    this.img = 'img/wQ.png';
+    this.value = 9;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
@@ -54,6 +54,55 @@ function WhiteRook(name, file, rank) {
             let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
             that.validMovesList.push(validTile);
         }
+
+              //top right
+              for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
+    
+                if (validTile == null) {
+                    break;
+                }
+                if (that.currentPos.color == validTile.color) {
+                    that.validMovesList.push(validTile);
+                }
+    
+            }
+    
+            //top left 
+            for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
+    
+            // bottom right
+            for (let i = 1; i <= that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
+    
+            //bottom left
+            for (let i = 1; i <= that.currentPos.rank; i++) {
+                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posLeft * i));
+                if (validTile == null) {
+                    break;
+                } else {
+                    if (that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                }
+            }
 
 
 

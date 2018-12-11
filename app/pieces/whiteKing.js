@@ -2,7 +2,7 @@ function WhiteKing(name, file, rank) {
     var that = this;
     this.name = name
     this.img = 'img/wK.png';
-    this.value - 100;
+    this.value = 100;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
