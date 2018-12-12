@@ -37,21 +37,33 @@ function WhiteQueen(name, file, rank) {
         //top valid moves
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
         for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
             let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
+            if(validTile.hasPiece) {
+                break;
+            }
             that.validMovesList.push(validTile);
         }
 
@@ -60,6 +72,9 @@ function WhiteQueen(name, file, rank) {
                 let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
     
                 if (validTile == null) {
+                    break;
+                }
+                if(validTile.hasPiece) {
                     break;
                 }
                 if (that.currentPos.color == validTile.color) {
@@ -74,6 +89,9 @@ function WhiteQueen(name, file, rank) {
                 if (validTile == null) {
                     break;
                 } else {
+                    if(validTile.hasPiece) {
+                        break;
+                    }
                     if (that.currentPos.color == validTile.color) {
                         that.validMovesList.push(validTile);
                     }
@@ -86,6 +104,9 @@ function WhiteQueen(name, file, rank) {
                 if (validTile == null) {
                     break;
                 } else {
+                    if(validTile.hasPiece) {
+                        break;
+                    }
                     if (that.currentPos.color == validTile.color) {
                         that.validMovesList.push(validTile);
                     }
@@ -98,6 +119,9 @@ function WhiteQueen(name, file, rank) {
                 if (validTile == null) {
                     break;
                 } else {
+                    if(validTile.hasPiece) {
+                        break;
+                    }
                     if (that.currentPos.color == validTile.color) {
                         that.validMovesList.push(validTile);
                     }

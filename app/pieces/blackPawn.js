@@ -20,12 +20,12 @@ function BlackPawn(name, file, rank) {
         pic.src = this.img;
         pic.style.zIndex = '10';
 
-        let validTile = tiles.getTileById(that.currentPos.id + 8);
-        let validTile2 = tiles.getTileById(that.currentPos.id + 16);
+        // let validTile = tiles.getTileById(that.currentPos.id + 8);
+        // let validTile2 = tiles.getTileById(that.currentPos.id + 16);
 
 
-        that.validMovesList.push(validTile);
-        that.validMovesList.push(validTile2);
+        // that.validMovesList.push(validTile);
+        // that.validMovesList.push(validTile2);
 
         tile.getElement().appendChild(pic);
         tile.hasPiece = true;

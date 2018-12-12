@@ -41,6 +41,11 @@ function WhiteBishop(name, file, rank) {
             if (validTile == null) {
                 break;
             }
+
+            if(validTile.hasPiece) {
+                break;
+            }
+
             if (that.currentPos.color == validTile.color) {
                 that.validMovesList.push(validTile);
             }
@@ -53,6 +58,10 @@ function WhiteBishop(name, file, rank) {
             if (validTile == null) {
                 break;
             } else {
+
+                if(validTile.hasPiece) {
+                    break;
+                }
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
@@ -65,6 +74,10 @@ function WhiteBishop(name, file, rank) {
             if (validTile == null) {
                 break;
             } else {
+
+                if(validTile.hasPiece) {
+                    break;
+                }
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
@@ -77,6 +90,9 @@ function WhiteBishop(name, file, rank) {
             if (validTile == null) {
                 break;
             } else {
+                if(validTile.hasPiece) {
+                    break;
+                }
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
