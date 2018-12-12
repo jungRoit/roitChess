@@ -12,25 +12,15 @@ function BlackBishop(name, file, rank) {
     this.captured = false;
     this.moved = false;
 
+
+
     var posTop = 8;
     var posBottom = -8;
     var posLeft = 1;
     var posRight = -1;
 
 
-    var pic = document.createElement('img');
-
-    this.draw = function () {
-        let tile = tiles.getTile(this.file, this.rank);
-        tile.pieceName = that.name;
-        that.currentPos = tile;
-        pic.src = this.img;
-        pic.style.zIndex = '10';
-
-
-        tile.getElement().appendChild(pic);
-        tile.hasPiece = true;
-    }
+   
 
     this.setValidMoves = function () {
         that.validMovesList = [];
@@ -106,59 +96,8 @@ function BlackBishop(name, file, rank) {
                 }
             }
         }
-
-
-
-
-
     }
-    this.CheckValidMoves = function () {
-
-        // if(that.enabled){
-        that.setValidMoves();
-        that.validMovesList.forEach((tile) => {
-            tile.enabled = false;
-            tile.enableMove = true;
-            tile.checkEnabled();
-            tile.getElement().addEventListener('click', function () {
-                if (tile.enableMove == true && that.enabled == true) {
-                    that.move(tile);
-                }
-
-            });
-        });
-
-
-    }
-
-    this.move = function (tile) {
-
-        let initTile = tiles.getTile(this.file, this.rank);
-        initTile.hasPiece = false;
-        
-
-            tile.getElement().appendChild(that.getElement());
-        
-        that.validMovesList.forEach(t => {
-            t.disableMove();
-            t.setEnabled();
-            t.checkEnabled();
-        });
-
-        tile.hasPiece = true;
-        tile.pieceName = that.name;
-        that.file = tile.getFile();
-        that.rank = tile.getRank();
-        that.currentPos = tile;
-        that.moved = true;
-        that.enabled = false;
-
-    }
-
-    this.getElement = function () {
-        return pic;
-    }
-
+   
 
 
 }
