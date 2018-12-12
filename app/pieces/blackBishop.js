@@ -4,6 +4,7 @@ function BlackBishop(name, file, rank) {
     this.img = 'img/bB.png';
     this.value = -3;
     this.validMovesList = [];
+    this.canCaptureList = [];
     this.currentPos;
     this.file = file;
     this.rank = rank;
@@ -43,6 +44,7 @@ function BlackBishop(name, file, rank) {
             } 
 
             if(validTile.hasPiece) {
+                that.canCaptureList.push(validTile);
                 break;
             }
             
@@ -61,6 +63,7 @@ function BlackBishop(name, file, rank) {
             } else {
 
                 if(validTile.hasPiece) {
+                    that.canCaptureList.push(validTile);
                     break;
                 }
 
@@ -78,6 +81,7 @@ function BlackBishop(name, file, rank) {
             } else {
 
                 if(validTile.hasPiece) {
+                    that.canCaptureList.push(validTile);
                     break;
                 }
                 if (that.currentPos.color == validTile.color) {
@@ -94,6 +98,7 @@ function BlackBishop(name, file, rank) {
             } else {
 
                 if(validTile.hasPiece) {
+                    that.canCaptureList.push(validTile);
                     break;
                 }
                 if (that.currentPos.color == validTile.color) {

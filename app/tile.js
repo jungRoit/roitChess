@@ -6,6 +6,7 @@ function Tile(id, file, rank, box) {
     this.box = box;
     this.enabled = true;
     this.enableMove = false;
+    this.enableCapture = false;
     this.pieceName = '';
     this.hasPiece = false;
 
