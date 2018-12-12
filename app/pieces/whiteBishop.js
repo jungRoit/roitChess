@@ -10,6 +10,7 @@ function WhiteBishop(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
+    this.team = 'w';
 
     var posTop = -8;
     var posBottom = 8;

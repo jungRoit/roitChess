@@ -10,6 +10,7 @@ function WhitePawn(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
+    this.team = 'w';
 
   
 

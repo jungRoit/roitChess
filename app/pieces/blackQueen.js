@@ -10,6 +10,7 @@ function BlackQueen(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
+    this.team = 'b';
 
     var posTop = 8;
     var posBottom = -8;

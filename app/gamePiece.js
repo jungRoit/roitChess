@@ -3,6 +3,7 @@ function GamePiece(piece) {
         this.name = piece.name
         this.img = piece.img;
         this.value = piece.value;
+        
        
        
 
