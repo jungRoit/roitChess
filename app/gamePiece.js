@@ -53,7 +53,7 @@ function GamePiece(piece) {
             });
         }
 
-        // console.log(piece.canCaptureList);
+        console.log(piece.canCaptureList);
         // console.log(piece.validMovesList);
 
 
@@ -105,6 +105,7 @@ function GamePiece(piece) {
         tile.getElement().removeChild(currentPiece.getElement());
 
         tile.getElement().appendChild(that.getElement());
+        game.switchTurn();
 
 
         if(piece.validMovesList != null) {
@@ -129,7 +130,7 @@ function GamePiece(piece) {
         piece.currentPos = tile;
         piece.moved = true;
         piece.enabled = false;
-        game.switchTurn();
+        
 
     }
 

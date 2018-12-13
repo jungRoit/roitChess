@@ -4,6 +4,7 @@ function WhiteBishop(name, file, rank) {
     this.img = 'img/wB.png';
     this.value = 3;
     this.validMovesList = [];
+    this.canCaptureList = [];
     this.currentPos;
     this.file = file;
     this.rank = rank;
@@ -19,68 +20,37 @@ function WhiteBishop(name, file, rank) {
 
 
 
-    this.setValidMoves = function () {
+    this.setValidMoves = function (pieceList) {
         that.validMovesList = [];
-
+        that.canCaptureList = [];
+    
         //top right
-        for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
-
-            if (validTile == null) {
-                break;
-            }
-
-            if(validTile.hasPiece) {
-                break;
-            }
-
-            if (that.currentPos.color == validTile.color) {
-                that.validMovesList.push(validTile);
-            }
-
-        }
-
+        that.addToList(pieceList, posTop, posRight,Ranks.length - that.currentPos.rank);
         //top left 
-        for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
-            if (validTile == null) {
-                break;
-            } else {
-
-                if(validTile.hasPiece) {
-                    break;
-                }
-                if (that.currentPos.color == validTile.color) {
-                    that.validMovesList.push(validTile);
-                }
-            }
-        }
-
+        
+            that.addToList(pieceList, posTop, posLeft,Ranks.length - that.currentPos.rank);
         // bottom right
-        for (let i = 1; i <= that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
-            if (validTile == null) {
-                break;
-            } else {
-
-                if(validTile.hasPiece) {
-                    break;
-                }
-                if (that.currentPos.color == validTile.color) {
-                    that.validMovesList.push(validTile);
-                }
-            }
+            that.addToList(pieceList, posBottom, posRight,that.currentPos.rank);
+        //bottom left
+            that.addToList(pieceList, posBottom, posLeft,that.currentPos.rank);
         }
 
-        //bottom left
-        for (let i = 1; i <= that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posLeft * i));
+    this.addToList = function (pieceList, pos1, pos2, loopMax) {
+        for (let i = 1; i <= loopMax; i++) {
+            let validTile = tiles.getTileById(that.currentPos.id + (pos1 * i) + (pos2 * i));
+
             if (validTile == null) {
                 break;
-            } else {
-                if(validTile.hasPiece) {
-                    break;
+            }
+
+            if (validTile.hasPiece) {
+                let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                if (tilePiece.team != that.team && that.currentPos.color == validTile.color) {
+                    that.canCaptureList.push(validTile);
                 }
+                break;
+            } else {
+
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }

@@ -4,6 +4,7 @@ function WhiteRook(name, file, rank) {
     this.img = 'img/wR.png';
     this.value = 5;
     this.validMovesList = [];
+    this.canCaptureList = [];
     this.currentPos;
     this.file = file;
     this.rank = rank;
@@ -20,44 +21,37 @@ function WhiteRook(name, file, rank) {
 
     
 
-    this.setValidMoves = function () {
+    this.setValidMoves = function (pieceList) {
 
         that.validMovesList = [];
+        that.canCaptureList = [];
         //top valid moves
-        for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
+      that.addToList(pieceList,posTop, Ranks.length - that.currentPos.rank);
+
+      // bottom valid moves
+      that.addToList(pieceList,posBottom,that.currentPos.rank);
+
+      // right valid moves
+      that.addToList(pieceList,posRight,Files.length - Files.indexOf(that.currentPos.file));
+
+     //left valid moves
+     that.addToList(pieceList,posLeft,Files.indexOf(that.currentPos.file));
+    }
+
+    this.addToList = function(pieceList,pos,loopMax) {
+        for (let i = 1; i < loopMax; i++) {
+            let validTile = tiles.getTileById(that.currentPos.id + pos * i);
             if(validTile.hasPiece) {
+                let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                if (tilePiece.team != that.team) {
+                    that.canCaptureList.push(validTile);
+                }
                 break;
+            }else {
+                that.validMovesList.push(validTile);
             }
-            that.validMovesList.push(validTile);
+            
         }
-
-        for (let i = 1; i < that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-        for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-        for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-
-
     }
 
 
