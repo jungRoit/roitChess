@@ -20,8 +20,9 @@ function WhiteKnight(name, file, rank) {
 
 
 
-    this.setValidMoves = function () {
+    this.setValidMoves = function (pieceList) {
         that.validMovesList = [];
+        that.canCaptureList = [];
 
         // top left and right
         //rank +2 file +1 and -1
@@ -30,26 +31,8 @@ function WhiteKnight(name, file, rank) {
             let fileLeft = Files[Files.indexOf(that.currentPos.getFile()) + posLeft];
             let fileRight = Files[Files.indexOf(that.currentPos.getFile()) + posRight];
 
-
-            let tileTL = tiles.getTile(fileLeft, rankTop);
-            if (tileTL != null) {
-                if (tileTL.hasPiece) {
-                    that.canCaptureList.push(tileTL);
-                } else {
-                    that.validMovesList.push(tileTL);
-                }
-            }
-
-
-            let tileTR = tiles.getTile(fileRight, rankTop);
-            if (tileTR != null) {
-                if (tileTR.hasPiece) {
-                    that.canCaptureList.push(tileTR);
-                } else {
-                that.validMovesList.push(tileTR);
-                }
-            }
-
+            that.addToList(pieceList,fileLeft, rankTop);
+            that.addToList(pieceList,fileRight, rankTop);
         }
 
         //bottom left and right
@@ -58,26 +41,8 @@ function WhiteKnight(name, file, rank) {
             let fileLeft = Files[Files.indexOf(that.currentPos.getFile()) + posLeft];
             let fileRight = Files[Files.indexOf(that.currentPos.getFile()) + posRight];
 
-
-            let tileBL = tiles.getTile(fileLeft, rankBottom);
-            if (tileBL != null) {
-                if (tileBL.hasPiece) {
-                    that.canCaptureList.push(tileBL);
-                } else {
-                that.validMovesList.push(tileBL);
-                }
-            }
-
-
-            let tileBR = tiles.getTile(fileRight, rankBottom);
-            if (tileBR != null) {
-                if (tileBR.hasPiece) {
-                    that.canCaptureList.push(tileBR);
-                } else {
-                that.validMovesList.push(tileBR);
-                }
-            }
-
+            that.addToList(pieceList,fileLeft, rankBottom);
+            that.addToList(pieceList,fileRight, rankBottom);
         }
 
         //left top and down
@@ -86,25 +51,8 @@ function WhiteKnight(name, file, rank) {
             let rankTop = Ranks[Ranks.indexOf(that.currentPos.getRank()) + posTop];
             let rankBottom = Ranks[Ranks.indexOf(that.currentPos.getRank()) + posBottom];
 
-            let tileLT = tiles.getTile(fileLeft, rankTop);
-            if (tileLT != null) {
-                if (tileLT.hasPiece) {
-                    that.canCaptureList.push(tileLT);
-                } else {
-                that.validMovesList.push(tileLT);
-                }
-            }
-
-
-            let tileLB = tiles.getTile(fileLeft, rankBottom);
-            if (tileLB != null) {
-                if (tileLB.hasPiece) {
-                    that.canCaptureList.push(tileLB);
-                } else {
-                that.validMovesList.push(tileLB);
-                }
-            }
-
+            that.addToList(pieceList,fileLeft, rankTop);
+            that.addToList(pieceList,fileLeft, rankBottom);
         }
 
         //right top and down
@@ -113,30 +61,26 @@ function WhiteKnight(name, file, rank) {
             let rankTop = Ranks[Ranks.indexOf(that.currentPos.getRank()) + posTop];
             let rankBottom = Ranks[Ranks.indexOf(that.currentPos.getRank()) + posBottom];
 
-            let tileRT = tiles.getTile(fileRight, rankTop);
-            if (tileRT != null) {
-                if (tileRT.hasPiece) {
-                    that.canCaptureList.push(tileRT);
-                } else {
-                that.validMovesList.push(tileRT);
-                }
-            }
-
-
-            let tileRB = tiles.getTile(fileRight, rankBottom);
-            if (tileRB != null) {
-                if (tileRB.hasPiece) {
-                    that.canCaptureList.push(tileRB);
-                } else {
-                that.validMovesList.push(tileRB);
-                }
-            }
-
+            that.addToList(pieceList,fileRight, rankTop);
+            that.addToList(pieceList,fileRight, rankBottom);
         }
 
     }
 
-    
+    this.addToList = function (pieceList, file, rank) {
+        let tile = tiles.getTile(file, rank);
+        if (tile != null) {
+            if (tile.hasPiece) {
+                let tilePiece = pieceList.getByName(tile.pieceName).getPiece();
+                if (tilePiece.team != that.team) {
+                    that.canCaptureList.push(tile);
+                }
+
+            }
+            that.validMovesList.push(tile);
+        }
+    }
+
 
 
 

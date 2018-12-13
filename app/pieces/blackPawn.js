@@ -27,7 +27,12 @@ function BlackPawn(name, file, rank) {
 
         if (that.currentPos.file != 'A') {
             var next = tiles.getTileById(that.currentPos.id + 8);
-            that.validMovesList.push(next);
+            if(next.hasPiece) {
+
+            }else {
+                that.validMovesList.push(next);
+            }
+            
         }
 
     }

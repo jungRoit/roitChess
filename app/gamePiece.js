@@ -52,7 +52,7 @@ function GamePiece(piece) {
                 });
             }
           
-    
+            console.log(piece.canCaptureList);
     
         }
     
