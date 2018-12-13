@@ -1,8 +1,6 @@
-function WhiteQueen(name, file, rank) {
+function Queen(name, file, rank,team) {
     var that = this;
     this.name = name
-    this.img = 'img/wQ.png';
-    this.value = 9;
     this.validMovesList = [];
     this.currentPos;
     this.file = file;
@@ -10,7 +8,15 @@ function WhiteQueen(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'w';
+    this.team = team;
+
+    if(that.team == 'w') {
+        this.value = 9;
+        this.img = 'img/wQ.png';
+    }else if(that.team == 'b'){
+        this.value = -9;
+        this.img = 'img/bQ.png';
+    }
 
     var posTop = -8;
     var posBottom = 8;

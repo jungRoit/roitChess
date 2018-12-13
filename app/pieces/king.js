@@ -1,8 +1,6 @@
-function WhiteKing(name, file, rank) {
+function King(name, file,rank,team) {
     var that = this;
     this.name = name
-    this.img = 'img/wK.png';
-    this.value = 100;
     this.validMovesList = [];
     this.canCaptureList = [];
     this.currentPos;
@@ -11,7 +9,16 @@ function WhiteKing(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'w';
+    this.isChecked = false;
+    this.team = team;
+
+    if(that.team == 'w') {
+        this.value = 100;
+        this.img = 'img/wK.png';
+    }else if(that.team == 'b'){
+        this.value = -100;
+        this.img = 'img/bK.png';
+    }
 
     var posTop = -8;
     var postBottom = 8;

@@ -1,8 +1,6 @@
-function BlackKnight(name, file, rank) {
+function Knight(name, file, rank, team) {
     var that = this;
     this.name = name
-    this.img = 'img/bN.png';
-    this.value = -3;
     this.validMovesList = [];
     this.canCaptureList = [];
     this.currentPos;
@@ -11,8 +9,15 @@ function BlackKnight(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'b';
+    this.team = team;
 
+    if(that.team == 'w') {
+        this.value = 3;
+        this.img = 'img/wN.png';
+    }else if(that.team == 'b'){
+        this.value = -3;
+        this.img = 'img/bN.png';
+    }
 
 
     var posTop = 1;

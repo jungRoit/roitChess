@@ -1,8 +1,6 @@
-function WhitePawn(name, file, rank) {
+function Pawn(name, file, rank,team) {
     var that = this;
     this.name = name
-    this.img = 'img/wP.png';
-    this.value = 1;
     this.validMovesList = [];
     this.canCaptureList = [];
     this.currentPos;
@@ -11,14 +9,28 @@ function WhitePawn(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'w';
+    this.team = team;
 
-    var posTop = -8;
+    if(that.team == 'w') {
+        this.value = 1;
+        this.img = 'img/wP.png';
+        var posTop = -8;
+        var firstMove = -16;
+        this.endTile = 8;
+    }else if(that.team == 'b'){
+        this.value = -1;
+        this.img = 'img/bP.png';
+        var posTop = 8;
+        var firstMove = 16;
+        this.endTile = 1;
+    }
+
+
+    
     var posLeft = -1;
     var posRight = 1;
     
-    var firstMove = -16;
-    this.endTile = 8;
+
 
   
 

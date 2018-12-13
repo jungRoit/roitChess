@@ -56,7 +56,7 @@ function GamePiece(piece) {
             });
         }
 
-        // console.log(piece.canCaptureList);
+        console.log(piece.canCaptureList);
         // console.log(piece.validMovesList);
 
 
@@ -98,7 +98,7 @@ function GamePiece(piece) {
     }
 
     this.capture = function (pieceList, tile) {
-
+        
         let initTile = tiles.getTile(piece.file, piece.rank);
         initTile.hasPiece = false;
 

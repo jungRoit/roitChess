@@ -1,8 +1,6 @@
-function WhiteBishop(name, file, rank) {
+function Bishop(name, file, rank,team) {
     var that = this;
     this.name = name
-    this.img = 'img/wB.png';
-    this.value = 3;
     this.validMovesList = [];
     this.canCaptureList = [];
     this.currentPos;
@@ -11,7 +9,14 @@ function WhiteBishop(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'w';
+    this.team = team;
+    if(that.team == 'w') {
+        this.value = 3;
+        this.img = 'img/wB.png';
+    }else if(that.team == 'b') {
+        this.value = -3;
+        this.img = 'img/bB.png';
+    }
 
     var posTop = -8;
     var posBottom = 8;

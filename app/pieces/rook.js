@@ -1,8 +1,6 @@
-function WhiteRook(name, file, rank) {
+function Rook(name, file, rank,team) {
     var that = this;
     this.name = name
-    this.img = 'img/wR.png';
-    this.value = 5;
     this.validMovesList = [];
     this.canCaptureList = [];
     this.currentPos;
@@ -11,7 +9,15 @@ function WhiteRook(name, file, rank) {
     this.enabled = false;
     this.captured = false;
     this.moved = false;
-    this.team = 'w';
+    this.team = team;
+
+    if(that.team == 'w') {
+        this.value = 5;
+        this.img = 'img/wR.png';
+    }else if(that.team == 'b'){
+        this.value = -5;
+        this.img = 'img/bR.png';
+    }
 
     var posTop = -8;
     var posBottom = 8;
