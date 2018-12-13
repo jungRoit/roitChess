@@ -125,11 +125,9 @@ function ChessBoard() {
                     }
                 });
 
-            }else {
-                alert('disabled');
             }
-
-
+         
+        
         });
 
 

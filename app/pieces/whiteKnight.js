@@ -74,10 +74,14 @@ function WhiteKnight(name, file, rank) {
                 let tilePiece = pieceList.getByName(tile.pieceName).getPiece();
                 if (tilePiece.team != that.team) {
                     that.canCaptureList.push(tile);
+                    console.log(tilePiece);
+                    console.log(that);
                 }
 
+            } else {
+                that.validMovesList.push(tile);
             }
-            that.validMovesList.push(tile);
+           
         }
     }
 
