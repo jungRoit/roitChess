@@ -2,6 +2,7 @@ function ChessBoard() {
     let that = this;
 
     tiles = new Tiles();
+    
     let index = 0;
 
     // this.clickedBoxes = [];
@@ -86,10 +87,12 @@ function ChessBoard() {
 
                  
                     if (tile.hasPiece) {
-                        // tiles.disableAll();
+
                         tiles.disableAllMoves();
+                        // tiles.disableAllCapture();
                         tiles.getAll().forEach(tile => {
                             tile.checkEnabled();
+                            // tile.checkCaptureLight();
                         });
 
                         
@@ -102,17 +105,19 @@ function ChessBoard() {
                         piece.getPiece().enabled = true;
                        
 
-                        if (tile.enabled == true) {
+                        if (tile.enabled == true && game.turn == piece.getPiece().team) {
                             
-                            piece.CheckValidMoves();
+                            piece.CheckValidMoves(PieceList);
                         }
 
                     } else {
-                        // tiles.enableAll();
+
                         if(tile.enableMove == false){
                             tiles.disableAllMoves();
+                            // tiles.disableAllCapture();
                             tiles.getAll().forEach(tile => {
                                 tile.checkEnabled();
+                                // tile.checkCaptureLight();
                             });
                         }
                         
@@ -120,6 +125,8 @@ function ChessBoard() {
                     }
                 });
 
+            }else {
+                alert('disabled');
             }
 
 

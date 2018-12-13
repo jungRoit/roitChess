@@ -22,9 +22,10 @@ function GamePiece(piece) {
            
         }
       
-        this.CheckValidMoves = function () {
+        this.CheckValidMoves = function (pieceList) {
     
-            piece.setValidMoves();
+            piece.setValidMoves(pieceList);
+
             piece.validMovesList.forEach((tile) => {
                 tile.enabled = false;
                 tile.enableMove = true;
@@ -36,6 +37,21 @@ function GamePiece(piece) {
     
                 });
             });
+
+            if(piece.canCaptureList != null) {
+                piece.canCaptureList.forEach(tile => {
+                    tile.enabled = false;
+                    tile.enableCapture = true;
+                    // tile.checkCaptureLight();
+                    tile.getElement().addEventListener('click', function () {
+                        if (tile.enableCapture == true && piece.enabled == true) {
+                            that.capture(tile);
+                        }
+        
+                    });
+                });
+            }
+          
     
     
         }
@@ -44,9 +60,9 @@ function GamePiece(piece) {
     
             let initTile = tiles.getTile(piece.file, piece.rank);
             initTile.hasPiece = false;
-            
-    
+        
                 tile.getElement().appendChild(that.getElement());
+                game.switchTurn();
             
                 piece.validMovesList.forEach(t => {
                 t.disableMove();
@@ -62,6 +78,36 @@ function GamePiece(piece) {
             piece.moved = true;
             piece.enabled = false;
     
+        }
+
+        this.capture = function() {
+            alert('captured');
+            // let initTile = tiles.getTile(piece.file, piece.rank);
+            // initTile.hasPiece = false;
+            
+            // let currentPiece =  pieceList.getByName(tile.pieceName);
+            // currentPiece.captured = true;
+            // game.score += currentPiece.value;
+            // tile.getElement().removeChild(currentPiece.getElement());
+    
+            //     tile.getElement().appendChild(that.getElement());
+               
+            
+            //     piece.canCaptureList.forEach(t => {
+            //     t.disableCapture();
+            //     t.setEnabled();
+            //     t.checkCaptureLight();
+            // });
+    
+            // tile.hasPiece = true;
+            // tile.pieceName = piece.name;
+            // piece.file = tile.getFile();
+            // piece.rank = tile.getRank();
+            // piece.currentPos = tile;
+            // piece.moved = true;
+            // piece.enabled = false;
+            // game.switchTurn();
+
         }
     
         this.getElement = function () {

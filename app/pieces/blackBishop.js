@@ -23,8 +23,9 @@ function BlackBishop(name, file, rank) {
 
    
 
-    this.setValidMoves = function () {
+    this.setValidMoves = function (pieceList) {
         that.validMovesList = [];
+        that.canCaptureList = [];
 
         //top right
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
@@ -35,7 +36,11 @@ function BlackBishop(name, file, rank) {
             } 
 
             if(validTile.hasPiece) {
-                that.canCaptureList.push(validTile);
+                // let tilePiece =  pieceList.getByName(validTile.pieceName).getPiece();
+                // if(tilePiece.team != that.team){
+                    
+                    that.canCaptureList.push(validTile);
+                // }
                 break;
             }
             
@@ -49,19 +54,23 @@ function BlackBishop(name, file, rank) {
         //top left 
         for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
+           
             if (validTile == null) {
                 break;
-            } else {
+            } 
 
                 if(validTile.hasPiece) {
-                    that.canCaptureList.push(validTile);
+                    // let tilePiece =  pieceList.getByName(validTile.pieceName).getPiece();
+                    // if(tilePiece.team != that.team){
+                        that.canCaptureList.push(validTile);
+                    // }
                     break;
                 }
 
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
-            }
+            
         }
 
         // bottom right
@@ -69,35 +78,42 @@ function BlackBishop(name, file, rank) {
             let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
             if (validTile == null) {
                 break;
-            } else {
-
-                if(validTile.hasPiece) {
-                    that.canCaptureList.push(validTile);
+            } 
+              if(validTile.hasPiece) {
+                    // let tilePiece =  pieceList.getByName(validTile.pieceName).getPiece();
+                    // if(tilePiece.team != that.team){
+                        that.canCaptureList.push(validTile);
+                    // }
                     break;
                 }
-                if (that.currentPos.color == validTile.color) {
-                    that.validMovesList.push(validTile);
-                }
+                    if(that.currentPos.color == validTile.color) {
+                        that.validMovesList.push(validTile);
+                    }
+                
             }
-        }
+        
 
         //bottom left
         for (let i = 1; i <= that.currentPos.rank; i++) {
             let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
             if (validTile == null) {
                 break;
-            } else {
+            } 
 
                 if(validTile.hasPiece) {
-                    that.canCaptureList.push(validTile);
+                    // let tilePiece =  pieceList.getByName(validTile.pieceName).getPiece();
+                    // if(tilePiece.team != that.team){
+                        that.canCaptureList.push(validTile);
+                    // }
                     break;
                 }
+
                 if (that.currentPos.color == validTile.color) {
                     that.validMovesList.push(validTile);
                 }
             }
         }
-    }
+    
    
 
 

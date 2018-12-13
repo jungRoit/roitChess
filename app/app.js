@@ -1,5 +1,6 @@
 let chessBoard = new ChessBoard();
 PieceList = new PieceList();
+game = new Game();
 
 
 

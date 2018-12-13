@@ -16,11 +16,16 @@ function BlackPawn(name, file, rank) {
 
    
 
-    this.setValidMoves = function () {
+    this.setValidMoves = function (pieceList) {
         that.validMovesList = [];
+        if(!that.moved){
+            let tile1 = tiles.getTileById(that.currentPos.id + 16);
 
+            if (!tile1.hasPiece) that.validMovesList.push(tile1);
 
-        if (that.currentPos.file != 'H') {
+        }
+
+        if (that.currentPos.file != 'A') {
             var next = tiles.getTileById(that.currentPos.id + 8);
             that.validMovesList.push(next);
         }

@@ -69,6 +69,12 @@ function Tiles() {
         });
     }
 
+    this.disableAllCapture = function() {
+        that.tilesList.forEach(tile => {
+            tile.enableCapture = false;
+        });
+    }
+
     this.enableAll = function(){
         that.tilesList.forEach(tile => {
            

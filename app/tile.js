@@ -53,13 +53,27 @@ function Tile(id, file, rank, box) {
     this.checkEnabled = function() {
         if(that.enableMove) {
            that.getElement().style.background = 'lightblue';
-        }else {
+     }else {
             that.getElement().style.background = that.color;
         }
     }
 
+    this.checkCaptureLight = function() {
+
+     if(that.enableCapture) {
+        that.getElement().style.background = 'lightcoral';
+     }else  {
+            that.getElement().style.background = that.color;
+        }
+    
+    }
+
     this.disableMove = function() {
         that.enableMove = false;
+    }
+
+    this.disableCapture = function() {
+        that.enableCapture = false;
     }
 
    
