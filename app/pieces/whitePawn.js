@@ -16,6 +16,9 @@ function WhitePawn(name, file, rank) {
     var posTop = -8;
     var posLeft = -1;
     var posRight = 1;
+    
+    var firstMove = -16;
+    this.endTile = 8;
 
   
 
@@ -25,17 +28,18 @@ function WhitePawn(name, file, rank) {
         that.canCaptureList = [];
 
         if(!that.moved){
-            let tile1 = tiles.getTileById(that.currentPos.id - 16);
+            let tile1 = tiles.getTileById(that.currentPos.id + firstMove);
 
             if (!tile1.hasPiece) that.validMovesList.push(tile1);
 
         }
 
-        if (that.currentPos.file != 'H') {
+        if (that.currentPos.rank != that.endTile) {
             let next = tiles.getTileById(that.currentPos.id + posTop);
             
             let tileLeft = tiles.getTileById(that.currentPos.id +posTop + posLeft);
             let tileRight = tiles.getTileById(that.currentPos.id +posTop + posRight);
+            
            that.checkCapture(pieceList,tileLeft,next);
            that.checkCapture(pieceList,tileRight,next);
 

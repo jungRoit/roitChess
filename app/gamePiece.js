@@ -26,17 +26,20 @@ function GamePiece(piece) {
 
         piece.setValidMoves(pieceList);
 
-        piece.validMovesList.forEach((tile) => {
-            tile.enabled = false;
-            tile.enableMove = true;
-            tile.checkEnabled();
-            tile.getElement().addEventListener('click', function () {
-                if (tile.enableMove == true && piece.enabled == true) {
-                    that.move(tile);
-                }
-
+        if(piece.validMovesList != null){
+            piece.validMovesList.forEach((tile) => {
+                tile.enabled = false;
+                tile.enableMove = true;
+                tile.checkEnabled();
+                tile.getElement().addEventListener('click', function () {
+                    if (tile.enableMove == true && piece.enabled == true) {
+                        that.move(tile);
+                    }
+    
+                });
             });
-        });
+        }
+       
 
         if (piece.canCaptureList != null) {
             piece.canCaptureList.forEach(tile => {
@@ -53,7 +56,7 @@ function GamePiece(piece) {
             });
         }
 
-        console.log(piece.canCaptureList);
+        // console.log(piece.canCaptureList);
         // console.log(piece.validMovesList);
 
 
