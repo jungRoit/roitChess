@@ -19,104 +19,71 @@ function WhiteQueen(name, file, rank) {
 
 
     
+    this.setValidMoves = function (pieceList) {
+        
+                that.validMovesList = [];
+                that.canCaptureList = [];
+                //top valid moves
+              that.addToListRook(pieceList,posTop, Ranks.length - that.currentPos.rank);
+        
+              // bottom valid moves
+              that.addToListRook(pieceList,posBottom,that.currentPos.rank);
+        
+              // right valid moves
+              that.addToListRook(pieceList,posRight,Files.length - Files.indexOf(that.currentPos.file));
+        
+             //left valid moves
+             that.addToListRook(pieceList,posLeft,Files.indexOf(that.currentPos.file));
 
-    this.setValidMoves = function () {
-
-        that.validMovesList = [];
-        //top valid moves
-        for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posTop * i);
-            if(validTile.hasPiece) {
-                break;
+             //top right
+        that.addToListBishop(pieceList, posTop, posRight,Ranks.length - that.currentPos.rank);
+        //top left 
+        
+            that.addToListBishop(pieceList, posTop, posLeft,Ranks.length - that.currentPos.rank);
+        // bottom right
+            that.addToListBishop(pieceList, posBottom, posRight,that.currentPos.rank);
+        //bottom left
+            that.addToListBishop(pieceList, posBottom, posLeft,that.currentPos.rank);
+        
             }
-            that.validMovesList.push(validTile);
-        }
-
-        for (let i = 1; i < that.currentPos.rank; i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posBottom * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-        for (let i = 1; i < Files.length - Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posRight * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-        for (let i = 1; i <= Files.indexOf(that.currentPos.file); i++) {
-            let validTile = tiles.getTileById(that.currentPos.id + posLeft * i);
-            if(validTile.hasPiece) {
-                break;
-            }
-            that.validMovesList.push(validTile);
-        }
-
-              //top right
-              for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posRight * i));
-    
-                if (validTile == null) {
-                    break;
-                }
-                if(validTile.hasPiece) {
-                    break;
-                }
-                if (that.currentPos.color == validTile.color) {
-                    that.validMovesList.push(validTile);
-                }
-    
-            }
-    
-            //top left 
-            for (let i = 1; i <= Ranks.length - that.currentPos.rank; i++) {
-                let validTile = tiles.getTileById(that.currentPos.id + (posTop * i) + (posLeft * i));
-                if (validTile == null) {
-                    break;
-                } else {
+        
+            this.addToListRook = function(pieceList,pos,loopMax) {
+                for (let i = 1; i < loopMax; i++) {
+                    let validTile = tiles.getTileById(that.currentPos.id + pos * i);
                     if(validTile.hasPiece) {
+                        let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                        if (tilePiece.team != that.team) {
+                            that.canCaptureList.push(validTile);
+                        }
                         break;
-                    }
-                    if (that.currentPos.color == validTile.color) {
+                    }else {
                         that.validMovesList.push(validTile);
                     }
+                    
                 }
             }
-    
-            // bottom right
-            for (let i = 1; i <= that.currentPos.rank; i++) {
-                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posRight * i));
-                if (validTile == null) {
-                    break;
-                } else {
-                    if(validTile.hasPiece) {
+            this.addToListBishop = function (pieceList, pos1, pos2, loopMax) {
+                for (let i = 1; i <= loopMax; i++) {
+                    let validTile = tiles.getTileById(that.currentPos.id + (pos1 * i) + (pos2 * i));
+        
+                    if (validTile == null) {
                         break;
                     }
-                    if (that.currentPos.color == validTile.color) {
-                        that.validMovesList.push(validTile);
-                    }
-                }
-            }
-    
-            //bottom left
-            for (let i = 1; i <= that.currentPos.rank; i++) {
-                let validTile = tiles.getTileById(that.currentPos.id + (posBottom * i) + (posLeft * i));
-                if (validTile == null) {
-                    break;
-                } else {
-                    if(validTile.hasPiece) {
+        
+                    if (validTile.hasPiece) {
+                        let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                        if (tilePiece.team != that.team && that.currentPos.color == validTile.color) {
+                            that.canCaptureList.push(validTile);
+                        }
                         break;
-                    }
-                    if (that.currentPos.color == validTile.color) {
-                        that.validMovesList.push(validTile);
+                    } else {
+        
+                        if (that.currentPos.color == validTile.color) {
+                            that.validMovesList.push(validTile);
+                        }
                     }
                 }
             }
-    }
 
 
 

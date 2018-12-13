@@ -4,6 +4,7 @@ function WhitePawn(name, file, rank) {
     this.img = 'img/wP.png';
     this.value = 1;
     this.validMovesList = [];
+    this.canCaptureList = [];
     this.currentPos;
     this.file = file;
     this.rank = rank;
@@ -12,11 +13,16 @@ function WhitePawn(name, file, rank) {
     this.moved = false;
     this.team = 'w';
 
+    var posTop = -8;
+    var posLeft = -1;
+    var posRight = 1;
+
   
 
 
     this.setValidMoves = function (pieceList) {
         that.validMovesList = [];
+        that.canCaptureList = [];
 
         if(!that.moved){
             let tile1 = tiles.getTileById(that.currentPos.id - 16);
@@ -26,11 +32,29 @@ function WhitePawn(name, file, rank) {
         }
 
         if (that.currentPos.file != 'H') {
-            var next = tiles.getTileById(that.currentPos.id - 8);
+            let next = tiles.getTileById(that.currentPos.id + posTop);
+            
+            let tileLeft = tiles.getTileById(that.currentPos.id +posTop + posLeft);
+            let tileRight = tiles.getTileById(that.currentPos.id +posTop + posRight);
+           that.checkCapture(pieceList,tileLeft,next);
+           that.checkCapture(pieceList,tileRight,next);
 
-            if (!next.hasPiece) that.validMovesList.push(next);
+           
         }
 
+    }
+
+    //next tile is the tile directly above the pawn where it can move if there is no pieces
+    //tile is the tile where possible pieces for capture is checked
+    this.checkCapture = function(pieceList,tile,next) {
+        if(tile.hasPiece) {
+            let tilePiece = pieceList.getByName(tile.pieceName).getPiece();
+            if (tilePiece.team != that.team) {
+                that.canCaptureList.push(tile);
+            }
+        }else {
+            that.validMovesList.push(next);
+        }
     }
 
 
