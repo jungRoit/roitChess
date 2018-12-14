@@ -10,6 +10,8 @@ function Tile(id, file, rank, box) {
     this.pieceName = '';
     this.hasPiece = false;
 
+    
+
     this.getColor = function() {
         return this.box.style.background;
     }

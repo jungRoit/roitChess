@@ -7,27 +7,29 @@ function GamePiece(piece) {
     this.enabled = piece.enabled;
     this.captured = piece.captured;
     this.moved = piece.moved;
+    this.team = piece.team;
 
 
 
 
     var pic = document.createElement('img');
 
-    this.draw = function () {
+    this.draw = function (id) {
         let tile = tiles.getTile(piece.file, piece.rank);
         tile.pieceName = piece.name;
         piece.currentPos = tile;
         pic.src = piece.img;
         pic.style.zIndex = '10';
-        pic.id = that.id;
+        pic.id = id;
 
         tile.getElement().appendChild(pic);
         tile.hasPiece = true;
-        that.id += 1;
+        that.id = id;
+        
 
     }
 
-    this.CheckValidMoves = function (pieceList) {
+    this.CheckValidMoves = function (pieceList,beforeTile) {
         // console.log('helllo');
         piece.setValidMoves(pieceList);
         // piece.enabled = true;
@@ -56,7 +58,7 @@ function GamePiece(piece) {
                 t.checkCaptureLight();
                 t.getElement().addEventListener('click', function () {
                     if (t.enableCapture == true ) {
-                        that.capture(pieceList, t);
+                        that.capture(pieceList, t,beforeTile);
                     }
 
                 });
@@ -68,6 +70,7 @@ function GamePiece(piece) {
     }
 
     this.move = function (pieceList,tile) {
+        // console.log(tile);
         let initTile = tiles.getTile(piece.file, piece.rank);
         initTile.hasPiece = false;
 
@@ -98,33 +101,26 @@ function GamePiece(piece) {
         piece.currentPos = tile;
         piece.moved = true;
         piece.enabled = false;
-       
-       
+        pieceList.disableAll();
+        console.log(pieceList);
+        console.log(tiles);
 
     }
 
-    this.capture = function (pieceList, tile) {
+    this.capture = function (pieceList, tile,beforeTile) {
+        // console.log(beforeTile);
+        // console.log(tile);
+        // console.log('*********');
+        let beforePiece = pieceList.getByName(beforeTile.pieceName);
+        tile.hasPiece = true;
+        tile.pieceName = beforePiece.name;
 
-        // console.log(tile.enabled,tile.enableMove,tile.enableCapture);
-        // let initTile = tiles.getTile(piece.file, piece.rank);
-        // initTile.hasPiece = false;
-        // initTile.pieceName = '';
-        console.log(tile.pieceName);
-        let currentPiece = pieceList.getByName(tile.pieceName);
-        // currentPiece.getPiece().captured = true;
-        // game.score += currentPiece.value;
+        let currentPiece = tile.getPiece();
+        let delPiece = pieceList.getById(currentPiece.id);
+        delPiece.captured = true;
+        tile.getElement().removeChild(currentPiece);
+        // pieceList.remove(delPiece);
         
-        tile.getElement().removeChild(currentPiece.getElement());
-        pieceList.remove(currentPiece);
-
-        let tileIndex = piece.canCaptureList.indexOf(tile);
-        piece.canCaptureList.splice(tileIndex,1);
-        console.log(piece.canCaptureList);
-
-
-         tile.getElement().appendChild(that.getElement());
-        game.switchTurn();
-
 
         if(piece.validMovesList != null) {
             piece.validMovesList.forEach(t => {
@@ -137,19 +133,36 @@ function GamePiece(piece) {
         
         if (piece.canCaptureList != null) {
             piece.canCaptureList.forEach(p => {
+               
                 p.disableMove();
                 p.disableCapture();
                 p.setEnabled();
                 p.checkCaptureLight();
             });
         }
-        tile.hasPiece = true;
-        tile.pieceName = piece.name;
+
+
+        
         piece.file = tile.getFile();
         piece.rank = tile.getRank();
         piece.currentPos = tile;
         piece.moved = true;
         piece.enabled = false;
+        let tileIndex = piece.canCaptureList.indexOf(tile);
+        piece.canCaptureList.splice(tileIndex,1);
+        setTimeout(function() {
+            tile.getElement().appendChild(beforePiece.getElement());
+            beforeTile.hasPiece = false;
+            beforeTile.pieceName = '';
+            game.switchTurn();
+        },500);
+
+        pieceList.disableAll();
+        console.log(pieceList);
+        console.log(tiles);
+        
+      
+
         
 
     }

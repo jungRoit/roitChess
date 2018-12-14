@@ -35,7 +35,7 @@ function PieceList() {
 
     this.disableAll = function() {
         that.pieces.forEach(piece => {
-            piece.getPiece().enabled = false;
+            piece.enabled = false;
         })
     }
 }

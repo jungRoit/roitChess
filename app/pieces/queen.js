@@ -57,10 +57,12 @@ function Queen(name, file, rank,team) {
                 for (let i = 1; i < loopMax; i++) {
                     let validTile = tiles.getTileById(that.currentPos.id + pos * i);
                     if(validTile.hasPiece) {
-                        let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                        let tilePiece = pieceList.getByName(validTile.pieceName);
+                      
                         if (tilePiece.team != that.team) {
                             that.canCaptureList.push(validTile);
                         }
+                        
                         break;
                     }else {
                         that.validMovesList.push(validTile);
@@ -77,7 +79,7 @@ function Queen(name, file, rank,team) {
                     }
         
                     if (validTile.hasPiece) {
-                        let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                        let tilePiece = pieceList.getByName(validTile.pieceName);
                         if (tilePiece.team != that.team && that.currentPos.color == validTile.color) {
                             that.canCaptureList.push(validTile);
                         }
