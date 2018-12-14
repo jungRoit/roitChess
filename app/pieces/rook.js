@@ -45,10 +45,14 @@ function Rook(name, file, rank,team) {
     }
 
     this.addToList = function(pieceList,pos,loopMax) {
-        for (let i = 1; i < loopMax; i++) {
+        for (let i = 1; i <= loopMax; i++) {
+            
             let validTile = tiles.getTileById(that.currentPos.id + pos * i);
+            if(validTile == null) {
+                break;
+            }
             if(validTile.hasPiece) {
-                let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                let tilePiece = pieceList.getByName(validTile.pieceName);
                 if (tilePiece.team != that.team) {
                     that.canCaptureList.push(validTile);
                 }
