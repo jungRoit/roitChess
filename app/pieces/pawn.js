@@ -36,6 +36,7 @@ function Pawn(name, file, rank,team) {
 
 
     this.setValidMoves = function (pieceList) {
+        // console.log(that);
         that.validMovesList = [];
         that.canCaptureList = [];
 

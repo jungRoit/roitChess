@@ -76,6 +76,8 @@ function Tile(id, file, rank, box) {
         that.enableCapture = false;
     }
 
+
+
    
 }
 

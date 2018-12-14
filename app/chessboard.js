@@ -41,6 +41,46 @@ function ChessBoard() {
                 box.style.left = left + 'px';
 
                 that.switchTilesColor(box, i, j);
+                
+
+
+                box.addEventListener('click', function () {
+                 let tile = tiles.getTileById(box.id);   
+                 
+                    if (tile.hasPiece) {
+
+                        // tiles.disableAllMoves();
+                        // tiles.disableAllCapture();
+                        tiles.getAll().forEach(tile => {
+                            tile.checkEnabled();
+                            // tile.checkCaptureLight();
+                        });
+
+                        
+                        let name = tile.pieceName;
+                        let piece = PieceList.getByName(name);
+                        PieceList.disableAll();
+                        piece.enabled = true;
+                        if (piece.enabled == true && game.turn == piece.getPiece().team && tile.enableMove == false && tile.enableCapture == false) {
+                            piece.CheckValidMoves(PieceList);
+                            
+                        }
+
+                    } else {
+
+                        if(tile.enableMove == false){
+                            tiles.disableAllMoves();
+                            // tiles.disableAllCapture();
+                            tiles.getAll().forEach(tile => {
+                                tile.checkEnabled();
+                                // tile.checkCaptureLight();
+                            });
+                        }
+                        
+                      
+                    }
+                });
+
                 boardContainer.appendChild(box);
                 left += 60;
                 let tile = new Tile(index, Files[j], Ranks[i], box);
@@ -83,47 +123,7 @@ function ChessBoard() {
 
             if (tile.enabled) {
 
-                tile.getElement().addEventListener('click', function () {
-
-                 
-                    if (tile.hasPiece) {
-
-                        tiles.disableAllMoves();
-                        // tiles.disableAllCapture();
-                        tiles.getAll().forEach(tile => {
-                            tile.checkEnabled();
-                            // tile.checkCaptureLight();
-                        });
-
-                        
-
-                        let name = tile.pieceName;
-                        let piece = PieceList.getByName(name);
-                      
-
-                        PieceList.disableAll();
-                        piece.getPiece().enabled = true;
-                       
-
-                        if (tile.enabled == true && game.turn == piece.getPiece().team) {
-                            
-                            piece.CheckValidMoves(PieceList);
-                        }
-
-                    } else {
-
-                        if(tile.enableMove == false){
-                            tiles.disableAllMoves();
-                            // tiles.disableAllCapture();
-                            tiles.getAll().forEach(tile => {
-                                tile.checkEnabled();
-                                // tile.checkCaptureLight();
-                            });
-                        }
-                        
-                      
-                    }
-                });
+           
 
             }
          
