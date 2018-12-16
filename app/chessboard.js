@@ -54,7 +54,7 @@ function ChessBoard() {
 
                             let name = tile.pieceName;
                             let piece = PieceList.getById(tile.getPiece().id);
-                            console.log(piece);
+
                             PieceList.disableAll();
                             piece.enabled = true;
                             if (piece.enabled == true && game.turn == piece.getPiece().team && tile.enableMove == false && tile.enableCapture == false) {

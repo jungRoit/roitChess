@@ -10,6 +10,9 @@ function Bishop(name, file, rank,team) {
     this.captured = false;
     this.moved = false;
     this.team = team;
+    this.type = 'bishop';
+
+
     if(that.team == 'w') {
         this.value = 3;
         this.img = 'img/wB.png';
@@ -49,9 +52,15 @@ function Bishop(name, file, rank,team) {
             }
 
             if (validTile.hasPiece) {
-                let tilePiece = pieceList.getByName(validTile.pieceName).getPiece();
+                let tilePiece = pieceList.getByName(validTile.pieceName);
                 if (tilePiece.team != that.team && that.currentPos.color == validTile.color) {
-                    that.canCaptureList.push(validTile);
+                    // if(tilePiece.type.localeCompare('king') == 0){
+                    //     let player = PlayerList.getByTeam(tilePiece.team);
+                    //     player.isChecked = true;
+                    //     console.log(player.isChecked);
+                    // }
+                        that.canCaptureList.push(validTile);
+                      
                 }
                 break;
             } else {

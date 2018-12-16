@@ -10,6 +10,7 @@ function Knight(name, file, rank, team) {
     this.captured = false;
     this.moved = false;
     this.team = team;
+    this.type = 'knight';
 
     if(that.team == 'w') {
         this.value = 3;

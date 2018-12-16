@@ -9,6 +9,7 @@ function Queen(name, file, rank,team) {
     this.captured = false;
     this.moved = false;
     this.team = team;
+    this.type = 'queen';
 
     if(that.team == 'w') {
         this.value = 9;

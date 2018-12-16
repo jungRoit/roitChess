@@ -11,6 +11,7 @@ function King(name, file,rank,team) {
     this.moved = false;
     this.isChecked = false;
     this.team = team;
+    this.type = 'king';
 
     if(that.team == 'w') {
         this.value = 100;

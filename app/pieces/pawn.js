@@ -10,6 +10,7 @@ function Pawn(name, file, rank,team) {
     this.captured = false;
     this.moved = false;
     this.team = team;
+    this.type = 'pawn';
 
     if(that.team == 'w') {
         this.value = 1;
