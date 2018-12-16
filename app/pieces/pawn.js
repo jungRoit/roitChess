@@ -43,9 +43,7 @@ function Pawn(name, file, rank,team) {
 
         if(!that.moved){
             let tile1 = tiles.getTileById(that.currentPos.id + firstMove);
-
             if (!tile1.hasPiece) that.validMovesList.push(tile1);
-
         }
 
         if (that.currentPos.rank != that.endTile) {
@@ -54,8 +52,9 @@ function Pawn(name, file, rank,team) {
             let tileLeft = tiles.getTileById(that.currentPos.id +posTop + posLeft);
             let tileRight = tiles.getTileById(that.currentPos.id +posTop + posRight);
             
-           that.checkCapture(pieceList,tileLeft,next);
-           that.checkCapture(pieceList,tileRight,next);
+            that.checkMove(next);
+           that.checkCapture(pieceList,tileLeft);
+           that.checkCapture(pieceList,tileRight);
 
            
         }
@@ -64,15 +63,19 @@ function Pawn(name, file, rank,team) {
 
     //next tile is the tile directly above the pawn where it can move if there is no pieces
     //tile is the tile where possible pieces for capture is checked
-    this.checkCapture = function(pieceList,tile,next) {
+    this.checkCapture = function(pieceList,tile) {
         if(tile.hasPiece) {
             let tilePiece = pieceList.getByName(tile.pieceName).getPiece();
             if (tilePiece.team != that.team) {
                 that.canCaptureList.push(tile);
             }
-        }else {
+        }
+    }
+    this.checkMove = function(next) {
+        if(!next.hasPiece) {
             that.validMovesList.push(next);
         }
+        
     }
 
 

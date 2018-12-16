@@ -43,7 +43,7 @@ function ChessBoard() {
 
                     if (tile.enabled) {
                         if (tile.hasPiece) {
-
+                            
                             tiles.disableAllMoves();
                             tiles.disableAllCapture();
                             tiles.getAll().forEach(tile => {
@@ -65,6 +65,7 @@ function ChessBoard() {
                         } else {
 
                             if (tile.enableMove == false) {
+                                
                                 tiles.disableAllMoves();
                                 // tiles.disableAllCapture();
                                 tiles.getAll().forEach(tile => {

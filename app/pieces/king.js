@@ -12,12 +12,11 @@ function King(name, file,rank,team) {
     this.isChecked = false;
     this.team = team;
     this.type = 'king';
+    this.value = 100;
 
     if(that.team == 'w') {
-        this.value = 100;
         this.img = 'img/wK.png';
     }else if(that.team == 'b'){
-        this.value = -100;
         this.img = 'img/bK.png';
     }
 

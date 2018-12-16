@@ -50,11 +50,9 @@ function GamePiece(piece) {
 
                 tile.getElement().addEventListener('click', function () {
                     if (tile.enableMove == true && that.enabled == true) {
-
                         that.createMove(pieceList, tile, beforeTile);
                         that.move(pieceList,moveList[moveList.length - 1],false);
                         that.detectCheck(pieceList);
-
                         if (player.isChecked == true) {
 
                             that.undoMove(pieceList);
@@ -130,10 +128,17 @@ function GamePiece(piece) {
             let piece = moveList[moveList.length - 1].piece;
             let revMove = new Move(to, from, piece);
    
-            that.move(pieceList, revMove);
+            let tile = tiles.getTile(from.file,from.rank);
+            // if(tile.hasPiece) {
+            //     that.move(pieceList, revMove,true);
+            // }else {
+                that.move(pieceList, revMove,false);
+            // }
+            
             let move = moveList[moveList.length - 1];
             let index = moveList.indexOf(move);
             moveList.splice(index, 1);
+            pieceList.disableAll();
         }, 1000);
     }
 
@@ -163,16 +168,18 @@ function GamePiece(piece) {
     this.detectCheck = function (pieceList) {
         that.createCheckMoveList(pieceList);
         playerList.disableAllIsChecked();
+        console.log(playerList);
+        console.log(that.checkMoveList);
         that.checkMoveList.forEach(tile => {
                 let CheckPiece = pieceList.getById(tile.getPiece().id);
-                if (CheckPiece.value == 100 || CheckPiece.value == -100) {
+                if (CheckPiece.value == 100) {
                     playerList.getAll().forEach(player => {
                         if (player.team == that.team) {
                             player.isChecked = true;
                         }
                     });
                     
-                console.log('check');
+               
             }
         });
 
@@ -212,6 +219,7 @@ function GamePiece(piece) {
 
         let move = new Move(to, from, piece);
         moveList.push(move);
+       
     }
 
 
