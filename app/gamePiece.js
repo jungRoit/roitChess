@@ -36,57 +36,67 @@ function GamePiece(piece) {
         that.detectCheck(pieceList);
 
         let player = playerList.getByTeam(that.team);
-       
 
-            piece.setValidMoves(pieceList);
 
-            if (piece.validMovesList != null) {
+        piece.setValidMoves(pieceList);
 
-                piece.validMovesList.forEach((tile) => {
-                    tile.enabled = false;
-                    tile.enableMove = true;
-                    tile.enableCapture = false;
-                    tile.checkEnabled();
-                    tile.getElement().addEventListener('click', function () {
-                        if (tile.enableMove == true && that.enabled == true) {
-                            
-                            that.move(pieceList, tile,beforeTile);
+        if (piece.validMovesList != null) {
+
+            piece.validMovesList.forEach((tile) => {
+                tile.enabled = false;
+                tile.enableMove = true;
+                tile.enableCapture = false;
+                tile.checkEnabled();
+                tile.getElement().addEventListener('click', function () {
+                    if (tile.enableMove == true && that.enabled == true) {
+                        that.createMove(pieceList, tile, beforeTile);
+                        that.move(pieceList, moveList[moveList.length - 1]);
+                        that.detectCheck(pieceList);
+                        if(player.isChecked == true){
+                            that.undoMove(pieceList);
                         }
 
-                    });
+                    }
                 });
-            }
+            });
+
+        }
 
 
-            if (piece.canCaptureList != null) {
-                piece.canCaptureList.forEach(t => {
-                    t.enabled = false;
-                    t.enableMove = false;
-                    t.enableCapture = true;
-                    t.checkCaptureLight();
-                    t.getElement().addEventListener('click', function () {
-                        if (t.enableCapture == true) {
-                            that.capture(pieceList, t, beforeTile);
-                        }
+        if (piece.canCaptureList != null) {
+            piece.canCaptureList.forEach(t => {
+                t.enabled = false;
+                t.enableMove = false;
+                t.enableCapture = true;
+                t.checkCaptureLight();
+                t.getElement().addEventListener('click', function () {
+                    if (t.enableCapture == true) {
+                        that.capture(pieceList, t, beforeTile);
+                    }
 
-                    });
                 });
-            }
+            });
+        }
+
+        
         
 
 
     }
 
-    this.move = function (pieceList, tile,beforeTile) {
+    this.move = function (pieceList, move) {
 
-        let initTile = tiles.getTile(piece.file, piece.rank);
+        let tile = tiles.getTile(move.to.file, move.to.rank);
+
+        let initTile = tiles.getTile(move.from.file, move.from.rank);
         initTile.hasPiece = false;
+        initTile.pieceName = '';
         // that.detectCheck(pieceList);
         let player = playerList.getByTeam(that.team);
         // if(player.isChecked != true){
         tile.getElement().appendChild(that.getElement());
         // that.detectCheck(pieceList);
-       
+
         game.switchTurn();
 
         that.resetTiles();
@@ -99,8 +109,8 @@ function GamePiece(piece) {
         piece.moved = true;
         piece.enabled = false;
         pieceList.disableAll();
-        
-        
+        console.log(tiles);
+
 
     }
 
@@ -115,7 +125,7 @@ function GamePiece(piece) {
         delPiece.captured = true;
         tile.getElement().removeChild(currentPiece);
 
-       that.resetTiles();
+        that.resetTiles();
 
 
 
@@ -136,16 +146,23 @@ function GamePiece(piece) {
         }, 500);
 
         pieceList.disableAll();
-        that.createMove(pieceList,tile,beforeTile);
-        
+        that.createMove(pieceList, tile, beforeTile);
+
     }
 
-    this.undoMove = function(pieceList,tile,beforeTile) {
- 
-        let currentPiece = tile.getPiece();
-        
-        tile.getElement().removeChild(currentPiece);
-        beforeTile.getElement().appendChild(currentPiece);
+    this.undoMove = function (pieceList) {
+        setTimeout(() => {
+            let to = moveList[moveList.length - 1].from;
+            let from = moveList[moveList.length - 1].to;
+            let piece = moveList[moveList.length - 1].piece;
+            let revMove = new Move(to, from, piece);
+            // console.log(revMove);
+            that.move(pieceList, revMove);
+            let move = moveList[moveList.length - 1];
+            let index = moveList.indexOf(move);
+            moveList.splice(index, 1);
+        }, 1000);
+
     }
 
     this.getElement = function () {
@@ -176,17 +193,13 @@ function GamePiece(piece) {
 
     this.detectCheck = function (pieceList) {
         that.createCheckMoveList(pieceList);
-
+        playerList.disableAllIsChecked();
         that.checkMoveList.forEach(tile => {
             let CheckPiece = pieceList.getById(tile.getPiece().id);
             if (CheckPiece.value == 100 || CheckPiece.value == -100) {
                 playerList.getAll().forEach(player => {
-
                     if (player.team == that.team) {
                         player.isChecked = true;
-                        game.check(player);
-                    } else {
-                        player.isChecked = false;
                     }
                 });
                 console.log('check');
@@ -197,8 +210,8 @@ function GamePiece(piece) {
 
     }
 
-    this.resetTiles = function() {
-        
+    this.resetTiles = function () {
+
         if (piece.validMovesList != null) {
             piece.validMovesList.forEach(t => {
                 t.disableMove();
@@ -216,7 +229,7 @@ function GamePiece(piece) {
         }
     }
 
-    this.createMove = function(pieceList,tile,beforeTile){
+    this.createMove = function (pieceList, tile, beforeTile) {
         let to = {
             file: tile.getFile(),
             rank: tile.getRank()
@@ -229,10 +242,12 @@ function GamePiece(piece) {
 
         let piece = pieceList.getByName(tile.pieceName);
 
-        let move = new Move(to,from,piece);
+        let move = new Move(to, from, piece);
         moveList.push(move);
-        console.log(moveList);
+        // console.log(moveList);
+
     }
+
 
 
 }

@@ -11,23 +11,21 @@ function Game(player1,player2) {
             that.turn = 'b';
             player1.isTurn = false;
             player2.isTurn = true;
-            that.check(player2);
         }else {
             that.turn = 'w';
             player1.isTurn = true;
             player2.isTurn = false;
-            that.check(player1);
         }
         
     }
 
-    this.check = function(player){
-        if(player.isChecked){
+    // this.check = function(player){
+    //     if(player.isChecked){
            
-            console.log(player1.isChecked);
-            console.log(player2.isChecked);
-        }
-    }
+    //         console.log(player1.isChecked);
+    //         console.log(player2.isChecked);
+    //     }
+    // }
 
 
 }
