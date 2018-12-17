@@ -174,6 +174,7 @@ function GamePiece(piece) {
             moveList.splice(index, 1);
             pieceList.disableAll();
             that.resetTiles();
+            ui.deleteMove();
         }, 1000);
     }
 

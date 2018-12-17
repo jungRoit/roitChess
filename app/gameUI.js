@@ -140,8 +140,14 @@ function GameUI(userOptions) {
             // moveDiv.scrollTop = moveDiv.scrollHeight;
             moveDiv.scrollIntoView();
             moveDiv.appendChild(tr);
-           
-        // });
+
+    }
+
+    this.revertMove = function() {
+        moveDiv.removeChild(moveDiv.childNodes[moveDiv.childNodes.length -2]);
+        moveDiv.removeChild(moveDiv.childNodes[moveDiv.childNodes.length -1]);
+        i = parseInt(moveDiv.childNodes[moveDiv.childNodes.length -1].childNodes[0].textContent) +1;
+        
     }
 
 

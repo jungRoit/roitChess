@@ -123,6 +123,10 @@ function UI() {
         gameUI.updateMove(move,team);
     }
 
+    this.deleteMove = function() {
+        gameUI.revertMove();
+    }
+
 
 
 }
