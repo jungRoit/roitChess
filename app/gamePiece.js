@@ -53,7 +53,7 @@ function GamePiece(piece) {
                 tile.getElement().addEventListener('click', function () {
                     if (tile.enableMove == true && that.enabled == true) {
                         that.createMove(pieceList, tile, beforeTile);
-                        that.move(pieceList, moveList[moveList.length - 1], false);
+                        that.move(pieceList, moveList[moveList.length - 1], false,false);
                         that.detectCheck(pieceList);
                         if (player.isChecked == true) {
                             that.undoMove(pieceList, false);
@@ -74,7 +74,7 @@ function GamePiece(piece) {
                 t.getElement().addEventListener('click', function () {
                     if (t.enableCapture == true && that.enabled == true) {
                         that.createMove(pieceList, t, beforeTile);
-                        that.move(pieceList, moveList[moveList.length - 1], true);
+                        that.move(pieceList, moveList[moveList.length - 1], true,false);
                         that.detectCheck(pieceList);
                         if (player.isChecked == true) {
                             that.undoMove(pieceList, true);
@@ -95,19 +95,29 @@ function GamePiece(piece) {
         }
     }
 
-    this.move = function (pieceList, move, captureFlag) {
+    //function to move or capture piece
+    this.move = function (pieceList, move, captureFlag,isUndo) {
 
         let tile = tiles.getTile(move.to.file, move.to.rank);
         let initTile = tiles.getTile(move.from.file, move.from.rank);
         let player = playerList.getByTeam(that.team);
 
-        if (captureFlag) {
+        if (captureFlag && !isUndo) {
             let beforePiece = pieceList.getByName(initTile.pieceName);
             let delPiece = pieceList.getByName(tile.pieceName);
             tile.hasPiece = true;
             tile.pieceName = beforePiece.name;
             delPiece.captured = true;
+            capturedPieceList.push(delPiece);
             tile.getElement().removeChild(delPiece.getElement());
+        }
+        if(captureFlag && isUndo) {
+            let beforePiece = pieceList.getByName(initTile.pieceName);
+            let delPiece = capturedPieceList[capturedPieceList.length-1];
+            tile.hasPiece = true;
+            tile.pieceName = beforePiece.name;
+            delPiece.captured = false;
+            initTile.getElement().appendChild(delPiece.getElement());
         }
 
         initTile.hasPiece = false;
@@ -138,10 +148,10 @@ function GamePiece(piece) {
             let revMove = new Move(to, from, piece);
 
             let tile = tiles.getTile(from.file, from.rank);
-            if (captureFlag) {
-                that.move(pieceList, revMove, true);
+            if (captureFlag == true) {
+                that.move(pieceList, revMove, true,true);
             } else {
-                that.move(pieceList, revMove, false);
+                that.move(pieceList, revMove, false,true);
             }
 
             let move = moveList[moveList.length - 1];
@@ -195,8 +205,6 @@ function GamePiece(piece) {
                 });
             }
         });
-
-        // console.log(playerList);
     }
 
     this.resetTiles = function () {

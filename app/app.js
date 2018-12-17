@@ -2,6 +2,7 @@
 PieceList = new PieceList();
 playerList = new PlayerList();
 moveList = [];
+capturedPieceList = [];
 let chessBoard = new ChessBoard();
 player1 = new Player('white','w');
 player2 = new Player('black','b');
