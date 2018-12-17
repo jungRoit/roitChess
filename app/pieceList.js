@@ -22,6 +22,23 @@ function PieceList() {
         }
         return null;
     }
+    this.getByType = function(type) {
+        for(var i = 0; i<this.pieces.length; i++){
+            if(this.pieces[i].type.localCompare(type) == 0){
+                return this.pieces[i];
+            }
+        }
+        return null;
+    }
+
+    this.getByTypeAndTeam = function(type,team) {
+        for(var i = 0; i<this.pieces.length; i++){
+            if(this.pieces[i].type == type && this.pieces[i].team == team){
+                return this.pieces[i];
+            }
+        }
+        return null;
+    }
 
     this.getAll = function() {
         return this.pieces;
@@ -38,4 +55,5 @@ function PieceList() {
             piece.enabled = false;
         })
     }
+    this.di
 }

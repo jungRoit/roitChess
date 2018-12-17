@@ -19,8 +19,8 @@ function PlayerList() {
     }
 
     this.disableAllIsChecked = function() {
-        that.players.forEach(player => {
-            player.isChecked = false;
-        })
+       for(let i=0;i<that.players.length;i++) {
+           that.players[i].isChecked = false;
+       }
     }
 }

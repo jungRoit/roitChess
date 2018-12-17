@@ -36,6 +36,7 @@ function GamePiece(piece) {
         that.detectCheck(pieceList);
 
         let player = playerList.getByTeam(that.team);
+        player.checkKingSideCastle(pieceList);
 
 
         piece.setValidMoves(pieceList);
@@ -54,8 +55,7 @@ function GamePiece(piece) {
                         that.move(pieceList,moveList[moveList.length - 1],false);
                         that.detectCheck(pieceList);
                         if (player.isChecked == true) {
-
-                            that.undoMove(pieceList);
+                            that.undoMove(pieceList,false);
                         }
                     }
                 });
@@ -70,14 +70,12 @@ function GamePiece(piece) {
                 t.checkCaptureLight();
 
                 t.getElement().addEventListener('click', function () {
-                    if (t.enableCapture == true) {
-
+                    if (t.enableCapture == true && that.enabled == true) {
                         that.createMove(pieceList, t, beforeTile);
                         that.move(pieceList, moveList[moveList.length - 1],true);
                         that.detectCheck(pieceList);
                         if (player.isChecked == true) {
-
-                            that.undoMove(pieceList);
+                            that.undoMove(pieceList,true);
                         }
                     }
 
@@ -94,13 +92,13 @@ function GamePiece(piece) {
 
         if (captureFlag) {
             let beforePiece = pieceList.getByName(initTile.pieceName);
+            let delPiece = pieceList.getByName(tile.pieceName);
                 tile.hasPiece = true;
                 tile.pieceName = beforePiece.name;
-
-            let currentPiece = tile.getPiece();
-            let delPiece = pieceList.getById(currentPiece.id);
+            console.log(beforePiece);
+            console.log(delPiece);
             delPiece.captured = true;
-            tile.getElement().removeChild(currentPiece);
+            tile.getElement().removeChild(delPiece.getElement());
         }
            
             initTile.hasPiece = false;
@@ -113,15 +111,17 @@ function GamePiece(piece) {
             piece.moved = true;
 
             tile.getElement().appendChild(that.getElement());
+            
             game.switchTurn();
 
         that.resetTiles();
         pieceList.disableAll();
+        
 
 
     }
 
-    this.undoMove = function (pieceList) {
+    this.undoMove = function (pieceList,captureFlag) {
         setTimeout(() => {
             let to = moveList[moveList.length - 1].from;
             let from = moveList[moveList.length - 1].to;
@@ -129,11 +129,11 @@ function GamePiece(piece) {
             let revMove = new Move(to, from, piece);
    
             let tile = tiles.getTile(from.file,from.rank);
-            // if(tile.hasPiece) {
-            //     that.move(pieceList, revMove,true);
-            // }else {
+            if(captureFlag) {
+                that.move(pieceList, revMove,true);
+            }else {
                 that.move(pieceList, revMove,false);
-            // }
+            }
             
             let move = moveList[moveList.length - 1];
             let index = moveList.indexOf(move);
@@ -152,6 +152,8 @@ function GamePiece(piece) {
 
     this.createCheckMoveList = function (pieceList) {
         let result = [];
+        that.checkMoveList = [];
+
         pieceList.getAll().forEach(p => {
             if (p.team != that.team) {
                 p.getPiece().setValidMoves(pieceList);
@@ -163,26 +165,29 @@ function GamePiece(piece) {
         that.checkMoveList = result.filter(function (value, index, self) {
             return self.indexOf(value) === index;
         });
+      
+        
     }
 
     this.detectCheck = function (pieceList) {
         that.createCheckMoveList(pieceList);
+        console.log('player');
         playerList.disableAllIsChecked();
-        console.log(playerList);
-        console.log(that.checkMoveList);
+
         that.checkMoveList.forEach(tile => {
                 let CheckPiece = pieceList.getById(tile.getPiece().id);
-                if (CheckPiece.value == 100) {
+                if (CheckPiece.type == 'king') {
                     playerList.getAll().forEach(player => {
                         if (player.team == that.team) {
                             player.isChecked = true;
+                            console.log('check');
+                            
                         }
                     });
-                    
-               
             }
         });
 
+        // console.log(playerList);
     }
 
     this.resetTiles = function () {
@@ -213,8 +218,6 @@ function GamePiece(piece) {
             file: beforeTile.getFile(),
             rank: beforeTile.getRank()
         }
-
-
         let piece = pieceList.getByName(beforeTile.pieceName);
 
         let move = new Move(to, from, piece);
