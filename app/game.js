@@ -16,8 +16,7 @@ function Game(player1,player2) {
             player1.isTurn = true;
             player2.isTurn = false;
         }
-        // console.log(player1.isChecked);
-        //  console.log(player2.isChecked);
+ 
         
     }
 

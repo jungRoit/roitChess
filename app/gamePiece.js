@@ -85,13 +85,18 @@ function GamePiece(piece) {
                 });
             });
         }
-
+        castleTilesKing = [];
+        castleTilesQueen = [];
         if (piece.type == 'king') {
             castleTilesKing = player.isCastleAvailable(pieceList, 'k');
-            that.generateCastleLight(pieceList, castleTilesKing, 'k');
+            if(player.canCastleKingSide) {
+                that.generateCastleLight(pieceList, castleTilesKing, 'k');
+            }
 
             castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
-            that.generateCastleLight(pieceList, castleTilesQueen, 'q');
+            if(player.canCastleQueenSide){
+                that.generateCastleLight(pieceList, castleTilesQueen, 'q');
+            }
         }
     }
 
@@ -110,6 +115,7 @@ function GamePiece(piece) {
             delPiece.captured = true;
             capturedPieceList.push(delPiece);
             tile.getElement().removeChild(delPiece.getElement());
+            
         }
         if(captureFlag && isUndo) {
             let beforePiece = pieceList.getByName(initTile.pieceName);
@@ -118,25 +124,31 @@ function GamePiece(piece) {
             tile.pieceName = beforePiece.name;
             delPiece.captured = false;
             initTile.getElement().appendChild(delPiece.getElement());
+            
+            initTile.hasPiece = true;
+            initTile.pieceName = delPiece.name;
+            
+        }else {
+
+            initTile.hasPiece = false;
+            initTile.pieceName = '';
         }
+            tile.hasPiece = true;
+            tile.pieceName = that.name;
+            piece.file = tile.getFile();
+            piece.rank = tile.getRank();
+            piece.currentPos = tile;
+            piece.moved = true;
+            that.moved = piece.moved;
+    
+            tile.getElement().appendChild(that.getElement());
 
-        initTile.hasPiece = false;
-        initTile.pieceName = '';
-        tile.hasPiece = true;
-        tile.pieceName = that.name;
-        piece.file = tile.getFile();
-        piece.rank = tile.getRank();
-        piece.currentPos = tile;
-        piece.moved = true;
-        that.moved = piece.moved;
-
-        tile.getElement().appendChild(that.getElement());
-
-
+           
         game.switchTurn();
 
         that.resetTiles();
         pieceList.disableAll();
+        // console.log(tiles);
 
     }
 
@@ -150,8 +162,10 @@ function GamePiece(piece) {
             let tile = tiles.getTile(from.file, from.rank);
             if (captureFlag == true) {
                 that.move(pieceList, revMove, true,true);
+               
             } else {
                 that.move(pieceList, revMove, false,true);
+                
             }
 
             let move = moveList[moveList.length - 1];
@@ -194,17 +208,20 @@ function GamePiece(piece) {
         playerList.disableAllIsChecked();
 
         that.checkMoveList.forEach(tile => {
-            let CheckPiece = pieceList.getById(tile.getPiece().id);
-            if (CheckPiece.type == 'king') {
-                playerList.getAll().forEach(player => {
-                    if (player.team == that.team) {
-                        player.isChecked = true;
-                        console.log('check');
-
-                    }
-                });
+            if(tile.hasPiece) {
+                let CheckPiece = pieceList.getById(tile.getPiece().id);
+                if (CheckPiece.type == 'king') {
+                    playerList.getAll().forEach(player => {
+                        if (player.team == that.team) {
+                            player.isChecked = true;
+                            console.log('check');
+    
+                        }
+                    });
+                }
             }
         });
+
     }
 
     this.resetTiles = function () {
@@ -266,69 +283,61 @@ function GamePiece(piece) {
         let king = pieceList.getByName(castleTiles[castleTiles.length - 1].pieceName);
         let rook = pieceList.getByName(castleTiles[0].pieceName);
 
+        if(rook.type == 'rook' && king.type == 'king'){
 
-
-        castleTiles[1].getElement().appendChild(king.getElement());
-        castleTiles[2].getElement().appendChild(rook.getElement());
-
-        castleTiles[0].hasPiece = false;
-        castleTiles[0].pieceName = '';
-
-        castleTiles[1].hasPiece = true;
-        castleTiles[1].pieceName = king.name;
-
-        castleTiles[2].hasPiece = true;
-        castleTiles[2].pieceName = rook.name;
-
-        castleTiles[3].hasPiece = false;
-        castleTiles[3].pieceName = '';
-        if (side == 'q') {
-            castleTiles[4].hasPiece = false;
-            castleTiles[4].pieceName = '';
+            castleTiles[1].getElement().appendChild(king.getElement());
+            castleTiles[2].getElement().appendChild(rook.getElement());
+    
+            castleTiles[0].hasPiece = false;
+            castleTiles[0].pieceName = '';
+    
+            castleTiles[1].hasPiece = true;
+            castleTiles[1].pieceName = king.name;
+    
+            castleTiles[2].hasPiece = true;
+            castleTiles[2].pieceName = rook.name;
+    
+            castleTiles[3].hasPiece = false;
+            castleTiles[3].pieceName = '';
+            if (side == 'q') {
+                castleTiles[4].hasPiece = false;
+                castleTiles[4].pieceName = '';
+            }
+    
+            that.resetTiles();
+    
+    
+            king.getPiece().moved = true;
+            king.getPiece().file = castleTiles[1].file;
+            king.getPiece().rank = castleTiles[1].rank;
+            king.getPiece().currentPos = castleTiles[1];
+    
+            king.moved = true;
+            king.file = castleTiles[1].file;
+            king.rank = castleTiles[1].rank;
+            king.currentPos = castleTiles[1];
+    
+            rook.getPiece().moved = true;
+            rook.getPiece().file = castleTiles[2].file;
+            rook.getPiece().rank = castleTiles[2].rank;
+            rook.getPiece().currentPos = castleTiles[2];
+    
+            rook.moved = true;
+            rook.file = castleTiles[2].file;
+            rook.rank = castleTiles[2].rank;
+            rook.currentPos = castleTiles[2];
+    
+    
+            that.resetTiles();
+    
+            game.switchTurn();
         }
-
-        that.resetTiles();
-
-
-        king.getPiece().moved = true;
-        king.getPiece().file = castleTiles[1].file;
-        king.getPiece().rank = castleTiles[1].rank;
-        king.getPiece().currentPos = castleTiles[1];
-
-        king.moved = true;
-        king.file = castleTiles[1].file;
-        king.rank = castleTiles[1].rank;
-        king.currentPos = castleTiles[1];
-
-        rook.getPiece().moved = true;
-        rook.getPiece().file = castleTiles[2].file;
-        rook.getPiece().rank = castleTiles[2].rank;
-        rook.getPiece().currentPos = castleTiles[2];
-
-        rook.moved = true;
-        rook.file = castleTiles[2].file;
-        rook.rank = castleTiles[2].rank;
-        rook.currentPos = castleTiles[2];
-
-
-        that.resetTiles();
-        // console.log(castleTiles);
-        console.log(king);
-        console.log(rook);
-        game.switchTurn();
-
     }
 
     this.generateCastleLight = function (pieceList, castleTiles, side) {
 
         if (castleTiles != null) {
-            let tile;
-            // if (side == 'k') {
-            tile = castleTiles[1];
-            // } else {
-            //     tile = castleTiles[2];
-            // }
-
+            let tile = castleTiles[1];
 
             tile.setEnableCastle();
             tile.enabled = false;
