@@ -148,6 +148,7 @@ function GamePiece(piece) {
 
         that.resetTiles();
         pieceList.disableAll();
+       ui.updateGameUI(move,that.team);
         // console.log(tiles);
 
     }

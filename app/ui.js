@@ -2,10 +2,13 @@ function UI() {
     var that = this;
 
     this.userOption ={};
+    
 
 
     var welcomeUI = document.createElement('div');
     var chessBoard = document.getElementById('chessboard');
+    gameUI = new GameUI(that.userOption);
+    // var gameUI = document.getElementById('gameUI');
 
     this.createWelcomUI = function() {
         welcomeUI.style.width = '500px';
@@ -39,7 +42,7 @@ function UI() {
         whiteInput.style.padding = '15px';
         whiteInput.style.fontSize = '25px';
         whiteInput.style.textAlign = 'center';
-        whiteInput.placeholder = 'White Player';
+        whiteInput.value = 'White Player';
 
         var blackInput = document.createElement('input');
         blackInput.style.background = 'black';
@@ -47,7 +50,7 @@ function UI() {
         blackInput.style.padding = '15px';
         blackInput.style.fontSize = '25px';
         blackInput.style.textAlign = 'center';
-        blackInput.placeholder = 'Black Player';
+        blackInput.value = 'Black Player';
 
         var time = document.createElement('select');
         var mins5 = document.createElement('option');
@@ -88,8 +91,11 @@ function UI() {
            that.userOption.time = time.value;
             
             welcomeUI.style.display = 'none';
-            chessBoard.style.display = 'block';
-            
+            chessBoard.style.display = 'inline-block';
+            // gameUI.style.display = 'inline-block';
+             
+            gameUI.createContainer();
+           
         })
 
 
@@ -111,5 +117,12 @@ function UI() {
     this.getUserOption = function() {
         return that.userOption;
     }
+
+    this.updateGameUI = function(move,team) {
+      
+        gameUI.updateMove(move,team);
+    }
+
+
 
 }

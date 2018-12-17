@@ -5,6 +5,7 @@ function ChessBoard() {
 
     let index = 0;
     let pieceIndex = 0;
+ 
 
     this.generateContainer = function () {
         boardContainer.style.position = 'relative';
@@ -14,6 +15,7 @@ function ChessBoard() {
         boardContainer.style.height = '480px';
         boardContainer.style.background = 'bisque';
         boardContainer.style.display = 'none';
+        boardContainer.style.cssFloat = 'left';
     }
 
     this.generateBoard = function () {
