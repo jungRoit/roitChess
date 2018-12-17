@@ -88,19 +88,20 @@ function GamePiece(piece) {
         if (piece.type == 'king') {
             let castleTiles = player.isKingSideCastleAvailable(pieceList);
             if (player.canCastleKingSide) {
-                let tile = castleTiles[1];
-                tile.setEnableCastle();
-                tile.enabled = false;
-                tile.enableMove = false;
-                tile.enableCapture = false;
-                tile.checkCastleLight();
-                tile.getElement().addEventListener('click', function () {
-                    if (tile.enableCastle == true && that.enabled == true) {
-                        that.castle(pieceList,castleTiles,'k');
-                    } 
-                    
-                });
-
+                if(castleTiles != null) {
+                    let tile = castleTiles[1];
+                    tile.setEnableCastle();
+                    tile.enabled = false;
+                    tile.enableMove = false;
+                    tile.enableCapture = false;
+                    tile.checkCastleLight();
+                    tile.getElement().addEventListener('click', function () {
+                        if (tile.enableCastle == true && that.enabled == true) {
+                            that.castle(pieceList,castleTiles,'k');
+                        } 
+                        
+                    });
+                }
             }
 
         }else {
@@ -267,6 +268,7 @@ function GamePiece(piece) {
         castleTiles[3].hasPiece = false;
         castleTiles[3].pieceName = '';
 
+
         castleTiles.forEach(tile => {
             tile.setDisableCastle();
             tile.enabled = true;
@@ -274,9 +276,32 @@ function GamePiece(piece) {
             tile.enableCapture = false;
             tile.checkCastleLight();
         });
+
+        king.getPiece().moved = true;
+        king.getPiece().file = castleTiles[1].file;
+        king.getPiece().rank = castleTiles[1].rank;
+        king.getPiece().currentPos = castleTiles[1];
+        
+        king.moved = true;
+        king.file = castleTiles[1].file;
+        king.rank = castleTiles[1].rank;
+        king.currentPos = castleTiles[1];
+
+        rook.getPiece().moved = true;
+        rook.getPiece().file = castleTiles[2].file;
+        rook.getPiece().rank = castleTiles[2].rank;
+        rook.getPiece().currentPos = castleTiles[2];
+
+        rook.moved = true;
+        rook.file = castleTiles[2].file;
+        rook.rank = castleTiles[2].rank;
+        rook.currentPos = castleTiles[2];
+        
         
         that.resetTiles();
-        console.log(castleTiles);
+        // console.log(castleTiles);
+        console.log(king);
+        console.log(rook);
        game.switchTurn();
 
     }
