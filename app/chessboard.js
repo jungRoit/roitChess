@@ -13,6 +13,7 @@ function ChessBoard() {
         boardContainer.style.width = '480px';
         boardContainer.style.height = '480px';
         boardContainer.style.background = 'bisque';
+        boardContainer.style.display = 'none';
     }
 
     this.generateBoard = function () {

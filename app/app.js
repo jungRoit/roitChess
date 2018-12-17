@@ -12,6 +12,8 @@ playerList.add(player2);
 
 game = new Game(player1,player2);
 
+let ui = new UI();
+ui.createWelcomUI();
 
 chessBoard.generateBoard();
 chessBoard.setStartingPosition();
