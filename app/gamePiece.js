@@ -12,6 +12,7 @@ function GamePiece(piece) {
     this.isChecked = false;
     this.checkMoveList = [];
 
+    let castleTilesKing, castleTilesQueen;
 
 
 
@@ -86,26 +87,11 @@ function GamePiece(piece) {
         }
 
         if (piece.type == 'king') {
-            let castleTiles = player.isKingSideCastleAvailable(pieceList);
-            if (player.canCastleKingSide) {
-                if(castleTiles != null) {
-                    let tile = castleTiles[1];
-                    tile.setEnableCastle();
-                    tile.enabled = false;
-                    tile.enableMove = false;
-                    tile.enableCapture = false;
-                    tile.checkCastleLight();
-                    tile.getElement().addEventListener('click', function () {
-                        if (tile.enableCastle == true && that.enabled == true) {
-                            that.castle(pieceList,castleTiles,'k');
-                        } 
-                        
-                    });
-                }
-            }
+            castleTilesKing = player.isCastleAvailable(pieceList, 'k');
+            that.generateCastleLight(pieceList, castleTilesKing, 'k');
 
-        }else {
-
+            castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
+            that.generateCastleLight(pieceList, castleTilesQueen, 'q');
         }
     }
 
@@ -120,7 +106,6 @@ function GamePiece(piece) {
             let delPiece = pieceList.getByName(tile.pieceName);
             tile.hasPiece = true;
             tile.pieceName = beforePiece.name;
-
             delPiece.captured = true;
             tile.getElement().removeChild(delPiece.getElement());
         }
@@ -231,6 +216,26 @@ function GamePiece(piece) {
                 p.checkCaptureLight();
             });
         }
+
+        if (castleTilesKing != null) {
+            castleTilesKing.forEach(tile => {
+                tile.setDisableCastle();
+                tile.enabled = true;
+                tile.enableMove = false;
+                tile.enableCapture = false;
+                tile.checkCastleLight();
+            });
+        }
+
+        if (castleTilesQueen != null) {
+            castleTilesQueen.forEach(tile => {
+                tile.setDisableCastle();
+                tile.enabled = true;
+                tile.enableMove = false;
+                tile.enableCapture = false;
+                tile.checkCastleLight();
+            });
+        }
     }
 
     this.createMove = function (pieceList, tile, beforeTile) {
@@ -249,14 +254,16 @@ function GamePiece(piece) {
 
     }
 
-    this.castle = function (pieceList,castleTiles,side) {
-       let king = pieceList.getByName(castleTiles[castleTiles.length-1].pieceName);
-       let rook = pieceList.getByName(castleTiles[0].pieceName);
+    this.castle = function (pieceList, castleTiles, side) {
+        let king = pieceList.getByName(castleTiles[castleTiles.length - 1].pieceName);
+        let rook = pieceList.getByName(castleTiles[0].pieceName);
 
-       castleTiles[1].getElement().appendChild(king.getElement());
-       castleTiles[2].getElement().appendChild(rook.getElement());
-       
-       castleTiles[0].hasPiece = false;
+
+
+        castleTiles[1].getElement().appendChild(king.getElement());
+        castleTiles[2].getElement().appendChild(rook.getElement());
+
+        castleTiles[0].hasPiece = false;
         castleTiles[0].pieceName = '';
 
         castleTiles[1].hasPiece = true;
@@ -267,21 +274,19 @@ function GamePiece(piece) {
 
         castleTiles[3].hasPiece = false;
         castleTiles[3].pieceName = '';
+        if (side == 'q') {
+            castleTiles[4].hasPiece = false;
+            castleTiles[4].pieceName = '';
+        }
 
+        that.resetTiles();
 
-        castleTiles.forEach(tile => {
-            tile.setDisableCastle();
-            tile.enabled = true;
-            tile.enableMove = false;
-            tile.enableCapture = false;
-            tile.checkCastleLight();
-        });
 
         king.getPiece().moved = true;
         king.getPiece().file = castleTiles[1].file;
         king.getPiece().rank = castleTiles[1].rank;
         king.getPiece().currentPos = castleTiles[1];
-        
+
         king.moved = true;
         king.file = castleTiles[1].file;
         king.rank = castleTiles[1].rank;
@@ -296,14 +301,39 @@ function GamePiece(piece) {
         rook.file = castleTiles[2].file;
         rook.rank = castleTiles[2].rank;
         rook.currentPos = castleTiles[2];
-        
-        
+
+
         that.resetTiles();
         // console.log(castleTiles);
         console.log(king);
         console.log(rook);
-       game.switchTurn();
+        game.switchTurn();
 
+    }
+
+    this.generateCastleLight = function (pieceList, castleTiles, side) {
+
+        if (castleTiles != null) {
+            let tile;
+            // if (side == 'k') {
+            tile = castleTiles[1];
+            // } else {
+            //     tile = castleTiles[2];
+            // }
+
+
+            tile.setEnableCastle();
+            tile.enabled = false;
+            tile.enableMove = false;
+            tile.enableCapture = false;
+            tile.checkCastleLight();
+            tile.getElement().addEventListener('click', function () {
+                if (tile.enableCastle == true && that.enabled == true) {
+                    that.castle(pieceList, castleTiles, side);
+                }
+
+            });
+        }
     }
 
 
