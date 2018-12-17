@@ -95,6 +95,7 @@ function UI() {
             // gameUI.style.display = 'inline-block';
              
             gameUI.createContainer();
+            that.startTime('w');
            
         })
 
@@ -129,6 +130,12 @@ function UI() {
 
     this.setGameScore = function(score){
         gameUI.updateScore(score);
+    }
+    this.startTime= function(team) {
+        gameUI.timer(team);
+    }
+    this.pauseTime = function(team) {
+        gameUI.pauseTimer(team);
     }
 
 

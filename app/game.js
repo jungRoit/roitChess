@@ -11,11 +11,17 @@ function Game(player1,player2) {
             that.turn = 'b';
             player1.isTurn = false;
             player2.isTurn = true;
+            ui.pauseTime('b');
+            ui.startTime('b');
         }else {
             that.turn = 'w';
             player1.isTurn = true;
             player2.isTurn = false;
+            ui.pauseTime('w');
+            ui.startTime('w');
         }
+
+        
  
         
     }
