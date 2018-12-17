@@ -115,6 +115,8 @@ function GamePiece(piece) {
             delPiece.captured = true;
             capturedPieceList.push(delPiece);
             tile.getElement().removeChild(delPiece.getElement());
+            game.score -= delPiece.value;
+            ui.setGameScore(game.score);
             
         }
         if(captureFlag && isUndo) {

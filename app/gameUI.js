@@ -3,6 +3,11 @@ function GameUI(userOptions) {
 
     var container = document.createElement('div');
     var moveDiv = document.createElement('div');
+    var header = document.createElement('div');
+    var whiteDiv = document.createElement('div');
+    var score = document.createElement('div');
+    var blackDiv = document.createElement('div');
+    
     var i =1;
 
     this.createContainer = function() {
@@ -22,13 +27,11 @@ function GameUI(userOptions) {
     }
 
     this.createHeader = function() {
-        var header = document.createElement('div');
+       
         header.style.height = '120px';
         header.style.marginTop = '20px';
         header.style.padding = '20px';
-        var whiteDiv = document.createElement('div');
-        var score = document.createElement('div');
-        var blackDiv = document.createElement('div');
+        
 
         whiteDiv.style.width = '40%';
         whiteDiv.style.cssFloat = 'left';
@@ -148,6 +151,11 @@ function GameUI(userOptions) {
         moveDiv.removeChild(moveDiv.childNodes[moveDiv.childNodes.length -1]);
         i = parseInt(moveDiv.childNodes[moveDiv.childNodes.length -1].childNodes[0].textContent) +1;
         
+    }
+
+    this.updateScore = function(s) {
+        score.textContent = s;
+       
     }
 
 

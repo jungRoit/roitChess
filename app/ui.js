@@ -127,6 +127,10 @@ function UI() {
         gameUI.revertMove();
     }
 
+    this.setGameScore = function(score){
+        gameUI.updateScore(score);
+    }
+
 
 
 }
