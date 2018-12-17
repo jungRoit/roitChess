@@ -95,8 +95,7 @@ function GamePiece(piece) {
             let delPiece = pieceList.getByName(tile.pieceName);
                 tile.hasPiece = true;
                 tile.pieceName = beforePiece.name;
-            console.log(beforePiece);
-            console.log(delPiece);
+
             delPiece.captured = true;
             tile.getElement().removeChild(delPiece.getElement());
         }
@@ -116,6 +115,7 @@ function GamePiece(piece) {
 
         that.resetTiles();
         pieceList.disableAll();
+        console.log(pieceList);
         
 
 
@@ -171,7 +171,6 @@ function GamePiece(piece) {
 
     this.detectCheck = function (pieceList) {
         that.createCheckMoveList(pieceList);
-        console.log('player');
         playerList.disableAllIsChecked();
 
         that.checkMoveList.forEach(tile => {
