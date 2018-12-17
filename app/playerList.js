@@ -22,5 +22,6 @@ function PlayerList() {
        for(let i=0;i<that.players.length;i++) {
            that.players[i].isChecked = false;
        }
+      
     }
 }

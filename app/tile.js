@@ -7,6 +7,7 @@ function Tile(id, file, rank, box) {
     this.enabled = true;
     this.enableMove = false;
     this.enableCapture = false;
+    this.enableCastle = false;
     this.pieceName = '';
     this.hasPiece = false;
 
@@ -70,12 +71,27 @@ function Tile(id, file, rank, box) {
     
     }
 
+    this.checkCastleLight = function() {
+        if(that.enableCastle) {
+            that.getElement().style.background = '#DDA0DD';
+         }else  {
+                that.getElement().style.background = that.color;
+            }
+    }
+
     this.disableMove = function() {
         that.enableMove = false;
     }
 
     this.disableCapture = function() {
         that.enableCapture = false;
+    }
+    this.setEnableCastle = function() {
+        that.enableCastle = true;
+    }
+
+    this.setDisableCastle = function() {
+        that.enableCastle = false;
     }
 
 
