@@ -9,12 +9,14 @@ function Game(player1,player2) {
     this.switchTurn = function() {
         if(that.turn == 'w'){
             that.turn = 'b';
+            chessBoard.rotateBoard('rotate(180deg)');
             player1.isTurn = false;
             player2.isTurn = true;
             ui.pauseTime('b');
             ui.startTime('b');
         }else {
             that.turn = 'w';
+            chessBoard.rotateBoard('rotate(360deg)');
             player1.isTurn = true;
             player2.isTurn = false;
             ui.pauseTime('w');

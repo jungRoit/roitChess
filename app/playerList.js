@@ -18,6 +18,16 @@ function PlayerList() {
         return null;
     }
 
+    this.getByName = function(name) {
+
+        for(let i =0 ; i<that.players.length; i++){
+            if(that.players[i].name == name) {
+                return that.players[i];
+            }
+        }
+        return null;
+    }
+
     this.disableAllIsChecked = function() {
        for(let i=0;i<that.players.length;i++) {
            that.players[i].isChecked = false;

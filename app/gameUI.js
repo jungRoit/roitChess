@@ -9,7 +9,13 @@ function GameUI(userOptions) {
     var blackTimer = document.createElement('div');
     var score = document.createElement('div');
     var blackDiv = document.createElement('div');
-    var whiteInterval, blackInterval;
+    var interval;
+
+    var minutesWhite = null;
+    var minutesBlack = null;
+    var secondsWhite = 00;
+    var secondsBlack = 00;
+
 
     var i = 1;
 
@@ -70,13 +76,15 @@ function GameUI(userOptions) {
         whiteTimer.style.fontSize = '50px';
         whiteTimer.cssFloat = 'left';
         whiteTimer.textContent = parseInt(userOptions.time) + ':00';
-        whiteTimer.style.display = 'inline-block';
+        whiteTimer.style.display = 'block';
+        whiteTimer.style.margin = 'auto';
 
         blackTimer.style.width = '100px';
         blackTimer.style.fontSize = '50px';
         blackTimer.cssFloat = 'right';
         blackTimer.textContent = parseInt(userOptions.time) + ':00';
-        blackTimer.style.display = 'inline-block';
+        blackTimer.style.display = 'block';
+        blackTimer.style.margin = 'auto';
 
         var timerDIv = document.createElement('div');
         timerDIv.style.display = 'block';
@@ -182,10 +190,7 @@ function GameUI(userOptions) {
         score.textContent = s;
 
     }
-    var minutesWhite = null;
-    var minutesBlack = null;
-    var secondsWhite = 00;
-    var secondsBlack = 00;
+
     this.timer = function (team) {
         
         if(!minutesWhite){
@@ -195,9 +200,8 @@ function GameUI(userOptions) {
         if(!minutesBlack) {
             minutesBlack = parseInt(userOptions.time);
         }
-        
-        // if (team == 'w') {
-            whiteInterval = setInterval(function () {
+
+            interval = setInterval(function () {
                 if(team == 'w'){
                    
                     whiteTimer.textContent = minutesWhite + ':' + secondsWhite;
@@ -205,6 +209,20 @@ function GameUI(userOptions) {
                         secondsWhite = 59;
                         minutesWhite--;
                     }
+
+                    if(minutesWhite < 0) {
+                        tiles.disableAll();
+                        // let player = PlayerList.getByTeam('w');
+                        // player.isGameOver = true;
+                        let winner = PlayerList.getByTeam('b');
+                        var h1 = document.createElement('h1');
+                        h1.textContent = ' Wins';
+
+                        container.appendChild(h1);
+                       
+
+                    }
+
                     secondsWhite--;
                    
                 }else {
@@ -213,27 +231,19 @@ function GameUI(userOptions) {
                     if (secondsBlack == 0) {
                         secondsBlack = 59;
                         minutesBlack--;
-                        
                     }
-                    secondsBlack--;
-                   
-                }
-                
 
-              
-                // var promise = new Promise(function(res,err){
-                //     if(clearInterval(whiteInterval)){
-                       
-                //         var current = {
-                //             min: minutes,
-                //             sec: seconds
-                //         }
-                //         res(current);
-                //     }else {
-                //         var error = 'hello';
-                //         err(error);
-                //     }
-                // })
+                    if(minutesBlack < 0 ) {
+                        let player = PlayerList.getByTeam('b');
+                        player.isGameOver = true;
+                        let winner = PlayerList.getByTeam('w');
+                        alert(winner.name+ 'Wins');
+                        location.reload();
+
+                    }
+
+                    secondsBlack--;
+                }
                
             }, 1000);
   
@@ -241,20 +251,7 @@ function GameUI(userOptions) {
 
     this.pauseTimer = function (team) {
 
-            clearInterval(whiteInterval);
-
-            // var result = function() {
-            //     whiteInterval.then(currrent =>{
-            //         console.log(currrent);
-            //     });
-            // }
-            
- // minutes = parseInt(currrent.min);
-                    // seconds = currrent.sec;
-            
-            
-        
-        
+            clearInterval(interval);
     }
 
 

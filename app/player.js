@@ -9,6 +9,7 @@ function Player(name, team) {
     this.canCastleKingSide = false;
     this.canCastleQueenSide = false;
     this.enPassant = [];
+    this.isGameOver = false;
 
 
     this.checkCastlePermission = function (pieceList) {
@@ -95,6 +96,10 @@ function Player(name, team) {
                 }
         }
 
+    }
+
+    this.checkGameOver = function() {
+        return that.isGameOver;
     }
 
 

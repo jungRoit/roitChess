@@ -53,8 +53,11 @@ function UI() {
         blackInput.value = 'Black Player';
 
         var time = document.createElement('select');
+        var mins2 = document.createElement('option');
         var mins5 = document.createElement('option');
         var mins10 = document.createElement('option');
+        var mins15 = document.createElement('option');
+        var mins30 = document.createElement('option');
 
         var timeDiv = document.createElement('div');
         timeDiv.textContent = 'Game Time:';
@@ -69,8 +72,11 @@ function UI() {
         time.style.marginLeft = '10px';
 
 
+        mins2.textContent = '2 mins';
         mins5.textContent = '5 mins';
         mins10.textContent = '10 mins';
+        mins15.textContent = '15 mins';
+        mins30.textContent = '30 mins';
 
         var play = document.createElement('button');
         // play.style.width = '150px';
@@ -100,8 +106,11 @@ function UI() {
         })
 
 
+        time.appendChild(mins2);
         time.appendChild(mins5);
         time.appendChild(mins10);
+        time.appendChild(mins15);
+        time.appendChild(mins30);
         // timeDiv.appendChild(timeHead);
         timeDiv.appendChild(time);
 

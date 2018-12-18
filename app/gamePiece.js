@@ -37,67 +37,74 @@ function GamePiece(piece) {
         that.detectCheck(pieceList);
 
         let player = playerList.getByTeam(that.team);
+        let gameOverFlag = player.checkGameOver();
 
+        if(gameOverFlag) {
+            alert('!!Game Over!! '+player.name+" Loses");
+        }else {
 
-
-        piece.setValidMoves(pieceList);
-
-        if (piece.validMovesList != null) {
-
-            piece.validMovesList.forEach((tile) => {
-                tile.enabled = false;
-                tile.enableMove = true;
-                tile.enableCapture = false;
-                tile.checkEnabled();
-
-                tile.getElement().addEventListener('click', function () {
-                    if (tile.enableMove == true && that.enabled == true) {
-                        that.createMove(pieceList, tile, beforeTile);
-                        that.move(pieceList, moveList[moveList.length - 1], false,false);
-                        that.detectCheck(pieceList);
-                        if (player.isChecked == true) {
-                            that.undoMove(pieceList, false);
-                        }
-
+            piece.setValidMoves(pieceList);
+            
+                    if (piece.validMovesList != null) {
+            
+                        piece.validMovesList.forEach((tile) => {
+                            tile.enabled = false;
+                            tile.enableMove = true;
+                            tile.enableCapture = false;
+                            tile.checkEnabled();
+            
+                            tile.getElement().addEventListener('click', function () {
+                                if (tile.enableMove == true && that.enabled == true) {
+                                    that.createMove(pieceList, tile, beforeTile);
+                                    that.move(pieceList, moveList[moveList.length - 1], false,false);
+                                    that.detectCheck(pieceList);
+                                    if (player.isChecked == true) {
+                                        that.undoMove(pieceList, false);
+                                    }
+            
+                                }
+                            });
+                        });
                     }
-                });
-            });
-        }
-
-        if (piece.canCaptureList != null) {
-            piece.canCaptureList.forEach(t => {
-                t.enabled = false;
-                t.enableMove = false;
-                t.enableCapture = true;
-                t.checkCaptureLight();
-
-                t.getElement().addEventListener('click', function () {
-                    if (t.enableCapture == true && that.enabled == true) {
-                        that.createMove(pieceList, t, beforeTile);
-                        that.move(pieceList, moveList[moveList.length - 1], true,false);
-                        that.detectCheck(pieceList);
-                        if (player.isChecked == true) {
-                            that.undoMove(pieceList, true);
+            
+                    if (piece.canCaptureList != null) {
+                        piece.canCaptureList.forEach(t => {
+                            t.enabled = false;
+                            t.enableMove = false;
+                            t.enableCapture = true;
+                            t.checkCaptureLight();
+            
+                            t.getElement().addEventListener('click', function () {
+                                if (t.enableCapture == true && that.enabled == true) {
+                                    that.createMove(pieceList, t, beforeTile);
+                                    that.move(pieceList, moveList[moveList.length - 1], true,false);
+                                    that.detectCheck(pieceList);
+                                    if (player.isChecked == true) {
+                                        that.undoMove(pieceList, true);
+                                    }
+            
+                                }
+            
+                            });
+                        });
+                    }
+                    castleTilesKing = [];
+                    castleTilesQueen = [];
+                    if (piece.type == 'king') {
+                        castleTilesKing = player.isCastleAvailable(pieceList, 'k');
+                        if(player.canCastleKingSide) {
+                            that.generateCastleLight(pieceList, castleTilesKing, 'k');
                         }
-
+            
+                        castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
+                        if(player.canCastleQueenSide){
+                            that.generateCastleLight(pieceList, castleTilesQueen, 'q');
+                        }
                     }
 
-                });
-            });
-        }
-        castleTilesKing = [];
-        castleTilesQueen = [];
-        if (piece.type == 'king') {
-            castleTilesKing = player.isCastleAvailable(pieceList, 'k');
-            if(player.canCastleKingSide) {
-                that.generateCastleLight(pieceList, castleTilesKing, 'k');
-            }
 
-            castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
-            if(player.canCastleQueenSide){
-                that.generateCastleLight(pieceList, castleTilesQueen, 'q');
-            }
         }
+        
     }
 
     //function to move or capture piece
