@@ -39,76 +39,76 @@ function GamePiece(piece) {
         let player = playerList.getByTeam(that.team);
         let gameOverFlag = player.checkGameOver();
 
-        if(gameOverFlag) {
-            alert('!!Game Over!! '+player.name+" Loses");
-        }else {
+        if (gameOverFlag) {
+            alert('!!Game Over!! ' + player.name + " Loses");
+        } else {
 
             piece.setValidMoves(pieceList);
-            
-                    if (piece.validMovesList != null) {
-            
-                        piece.validMovesList.forEach((tile) => {
-                            tile.enabled = false;
-                            tile.enableMove = true;
-                            tile.enableCapture = false;
-                            tile.checkEnabled();
-            
-                            tile.getElement().addEventListener('click', function () {
-                                if (tile.enableMove == true && that.enabled == true) {
-                                    that.createMove(pieceList, tile, beforeTile);
-                                    that.move(pieceList, moveList[moveList.length - 1], false,false);
-                                    that.detectCheck(pieceList);
-                                    if (player.isChecked == true) {
-                                        that.undoMove(pieceList, false);
-                                    }
-            
-                                }
-                            });
-                        });
-                    }
-            
-                    if (piece.canCaptureList != null) {
-                        piece.canCaptureList.forEach(t => {
-                            t.enabled = false;
-                            t.enableMove = false;
-                            t.enableCapture = true;
-                            t.checkCaptureLight();
-            
-                            t.getElement().addEventListener('click', function () {
-                                if (t.enableCapture == true && that.enabled == true) {
-                                    that.createMove(pieceList, t, beforeTile);
-                                    that.move(pieceList, moveList[moveList.length - 1], true,false);
-                                    that.detectCheck(pieceList);
-                                    if (player.isChecked == true) {
-                                        that.undoMove(pieceList, true);
-                                    }
-            
-                                }
-            
-                            });
-                        });
-                    }
-                    castleTilesKing = [];
-                    castleTilesQueen = [];
-                    if (piece.type == 'king') {
-                        castleTilesKing = player.isCastleAvailable(pieceList, 'k');
-                        if(player.canCastleKingSide) {
-                            that.generateCastleLight(pieceList, castleTilesKing, 'k');
+
+            if (piece.validMovesList != null) {
+
+                piece.validMovesList.forEach((tile) => {
+                    tile.enabled = false;
+                    tile.enableMove = true;
+                    tile.enableCapture = false;
+                    tile.checkEnabled();
+
+                    tile.getElement().addEventListener('click', function () {
+                        if (tile.enableMove == true && that.enabled == true) {
+                            that.createMove(pieceList, tile, beforeTile);
+                            that.move(pieceList, moveList[moveList.length - 1], false, false);
+                            that.detectCheck(pieceList);
+                            if (player.isChecked == true) {
+                                that.undoMove(pieceList, false);
+                            }
+
                         }
-            
-                        castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
-                        if(player.canCastleQueenSide){
-                            that.generateCastleLight(pieceList, castleTilesQueen, 'q');
+                    });
+                });
+            }
+
+            if (piece.canCaptureList != null) {
+                piece.canCaptureList.forEach(t => {
+                    t.enabled = false;
+                    t.enableMove = false;
+                    t.enableCapture = true;
+                    t.checkCaptureLight();
+
+                    t.getElement().addEventListener('click', function () {
+                        if (t.enableCapture == true && that.enabled == true) {
+                            that.createMove(pieceList, t, beforeTile);
+                            that.move(pieceList, moveList[moveList.length - 1], true, false);
+                            that.detectCheck(pieceList);
+                            if (player.isChecked == true) {
+                                that.undoMove(pieceList, true);
+                            }
+
                         }
-                    }
+
+                    });
+                });
+            }
+            castleTilesKing = [];
+            castleTilesQueen = [];
+            if (piece.type == 'king') {
+                castleTilesKing = player.isCastleAvailable(pieceList, 'k');
+                if (player.canCastleKingSide) {
+                    that.generateCastleLight(pieceList, castleTilesKing, 'k');
+                }
+
+                castleTilesQueen = player.isCastleAvailable(pieceList, 'q');
+                if (player.canCastleQueenSide) {
+                    that.generateCastleLight(pieceList, castleTilesQueen, 'q');
+                }
+            }
 
 
         }
-        
+
     }
 
     //function to move or capture piece
-    this.move = function (pieceList, move, captureFlag,isUndo) {
+    this.move = function (pieceList, move, captureFlag, isUndo) {
 
         let tile = tiles.getTile(move.to.file, move.to.rank);
         let initTile = tiles.getTile(move.from.file, move.from.rank);
@@ -124,40 +124,40 @@ function GamePiece(piece) {
             tile.getElement().removeChild(delPiece.getElement());
             game.score -= delPiece.value;
             ui.setGameScore(game.score);
-            
+
         }
-        if(captureFlag && isUndo) {
+        if (captureFlag && isUndo) {
             let beforePiece = pieceList.getByName(initTile.pieceName);
-            let delPiece = capturedPieceList[capturedPieceList.length-1];
+            let delPiece = capturedPieceList[capturedPieceList.length - 1];
             tile.hasPiece = true;
             tile.pieceName = beforePiece.name;
             delPiece.captured = false;
             initTile.getElement().appendChild(delPiece.getElement());
-            
+
             initTile.hasPiece = true;
             initTile.pieceName = delPiece.name;
-            
-        }else {
+
+        } else {
 
             initTile.hasPiece = false;
             initTile.pieceName = '';
         }
-            tile.hasPiece = true;
-            tile.pieceName = that.name;
-            piece.file = tile.getFile();
-            piece.rank = tile.getRank();
-            piece.currentPos = tile;
-            piece.moved = true;
-            that.moved = piece.moved;
-    
-            tile.getElement().appendChild(that.getElement());
+        tile.hasPiece = true;
+        tile.pieceName = that.name;
+        piece.file = tile.getFile();
+        piece.rank = tile.getRank();
+        piece.currentPos = tile;
+        piece.moved = true;
+        that.moved = piece.moved;
 
-           
+        tile.getElement().appendChild(that.getElement());
+
+
         game.switchTurn();
 
         that.resetTiles();
         pieceList.disableAll();
-       ui.updateGameUI(move,that.team);
+        ui.updateGameUI(move, that.team);
         // console.log(tiles);
 
     }
@@ -171,11 +171,11 @@ function GamePiece(piece) {
 
             let tile = tiles.getTile(from.file, from.rank);
             if (captureFlag == true) {
-                that.move(pieceList, revMove, true,true);
-               
+                that.move(pieceList, revMove, true, true);
+
             } else {
-                that.move(pieceList, revMove, false,true);
-                
+                that.move(pieceList, revMove, false, true);
+
             }
 
             let move = moveList[moveList.length - 1];
@@ -219,14 +219,14 @@ function GamePiece(piece) {
         playerList.disableAllIsChecked();
 
         that.checkMoveList.forEach(tile => {
-            if(tile.hasPiece) {
+            if (tile.hasPiece) {
                 let CheckPiece = pieceList.getById(tile.getPiece().id);
                 if (CheckPiece.type == 'king') {
                     playerList.getAll().forEach(player => {
                         if (player.team == that.team) {
                             player.isChecked = true;
                             console.log('check');
-    
+
                         }
                     });
                 }
@@ -294,54 +294,66 @@ function GamePiece(piece) {
         let king = pieceList.getByName(castleTiles[castleTiles.length - 1].pieceName);
         let rook = pieceList.getByName(castleTiles[0].pieceName);
 
-        if(rook.type == 'rook' && king.type == 'king'){
+        if (rook.type == 'rook' && king.type == 'king') {
 
             castleTiles[1].getElement().appendChild(king.getElement());
             castleTiles[2].getElement().appendChild(rook.getElement());
-    
+
             castleTiles[0].hasPiece = false;
             castleTiles[0].pieceName = '';
-    
+
             castleTiles[1].hasPiece = true;
             castleTiles[1].pieceName = king.name;
-    
+
             castleTiles[2].hasPiece = true;
             castleTiles[2].pieceName = rook.name;
-    
+
             castleTiles[3].hasPiece = false;
             castleTiles[3].pieceName = '';
             if (side == 'q') {
                 castleTiles[4].hasPiece = false;
                 castleTiles[4].pieceName = '';
             }
-    
+
             that.resetTiles();
-    
-    
+
+
             king.getPiece().moved = true;
             king.getPiece().file = castleTiles[1].file;
             king.getPiece().rank = castleTiles[1].rank;
             king.getPiece().currentPos = castleTiles[1];
-    
+
             king.moved = true;
             king.file = castleTiles[1].file;
             king.rank = castleTiles[1].rank;
             king.currentPos = castleTiles[1];
-    
+
             rook.getPiece().moved = true;
             rook.getPiece().file = castleTiles[2].file;
             rook.getPiece().rank = castleTiles[2].rank;
             rook.getPiece().currentPos = castleTiles[2];
-    
+
             rook.moved = true;
             rook.file = castleTiles[2].file;
             rook.rank = castleTiles[2].rank;
             rook.currentPos = castleTiles[2];
-    
-    
+
+
             that.resetTiles();
-    
+
             game.switchTurn();
+
+            let to = {
+                file: castleTiles[1].file,
+                rank: castleTiles[1].rank
+            }
+            let from = {
+                file: castleTiles[3].file,
+                rank: castleTiles[3].rank
+            }
+            let move = new Move(to,from,king);
+            moveList.push(move);
+            ui.updateGameUI(move, that.team);
         }
     }
 

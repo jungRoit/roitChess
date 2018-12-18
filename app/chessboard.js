@@ -205,10 +205,12 @@ function ChessBoard() {
 
     this.rotateBoard = function(rotate) {
         boardContainer.style.transform = rotate;
+        // boardContainer.style.transitionDelay = '1s';
         // boardContainer.style.transition = 'transform 1s';
 
         PieceList.getAll().forEach(piece => {
             piece.getElement().style.transform = rotate;
+            // piece.style.transitionDelay = '1s';
             // piece.getElement().style.transition = 'transform 1s';
         });
     }
