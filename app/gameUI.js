@@ -182,26 +182,45 @@ function GameUI(userOptions) {
         score.textContent = s;
 
     }
-   
+    var minutesWhite = null;
+    var minutesBlack = null;
+    var secondsWhite = 00;
+    var secondsBlack = 00;
     this.timer = function (team) {
-        var minutes = parseInt(userOptions.time);
-        var seconds = 00;
+        
+        if(!minutesWhite){
+            minutesWhite = parseInt(userOptions.time);
+        }
+
+        if(!minutesBlack) {
+            minutesBlack = parseInt(userOptions.time);
+        }
         
         // if (team == 'w') {
             whiteInterval = setInterval(function () {
                 if(team == 'w'){
-                    whiteTimer.textContent = minutes + ':' + seconds;
+                   
+                    whiteTimer.textContent = minutesWhite + ':' + secondsWhite;
+                    if (secondsWhite == 0) {
+                        secondsWhite = 59;
+                        minutesWhite--;
+                    }
+                    secondsWhite--;
+                   
                 }else {
-                    blackTimer.textContent = minutes + ':' + seconds;
+                    
+                    blackTimer.textContent = minutesBlack + ':' + secondsBlack;
+                    if (secondsBlack == 0) {
+                        secondsBlack = 59;
+                        minutesBlack--;
+                        
+                    }
+                    secondsBlack--;
+                   
                 }
                 
 
-                if (seconds == 0) {
-                    seconds = 59;
-                    minutes--;
-                }
-                seconds--;
-               
+              
                 // var promise = new Promise(function(res,err){
                 //     if(clearInterval(whiteInterval)){
                        
