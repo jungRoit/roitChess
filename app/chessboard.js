@@ -205,11 +205,11 @@ function ChessBoard() {
 
     this.rotateBoard = function(rotate) {
         boardContainer.style.transform = rotate;
-        boardContainer.style.transition = 'transform 1s ease-in-out';
+        // boardContainer.style.transition = 'transform 1s';
 
         PieceList.getAll().forEach(piece => {
             piece.getElement().style.transform = rotate;
-            piece.getElement().style.transition = 'transform 1s ease-in-out';
+            // piece.getElement().style.transition = 'transform 1s';
         });
     }
 
